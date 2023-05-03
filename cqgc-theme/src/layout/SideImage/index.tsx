@@ -1,13 +1,13 @@
-import { ReactElement } from "react";
-import cx from "classnames";
-import { Row } from "antd";
+import { ReactElement } from 'react';
+import { Row } from 'antd';
+import cx from 'classnames';
 
-import "./index.scss";
+import './index.scss';
 
 interface OwnProps {
   sideImgSrc?: string;
   alignCenter?: boolean;
-  theme?: "light" | "dark";
+  theme?: 'light' | 'dark';
   children: ReactElement;
   className?: string;
 }
@@ -15,25 +15,25 @@ interface OwnProps {
 const SideImageLayout = ({
   sideImgSrc,
   alignCenter = true,
-  theme = "dark",
+  theme = 'dark',
   children,
-  className = " ",
+  className = ' ',
 }: OwnProps) => (
-  <div className={cx("sideImagePageContainer", className)}>
-    <Row className={"contentWrapper"}>
+  <div className={cx('sideImagePageContainer', className)}>
+    <Row className={'contentWrapper'}>
       <div
-        className={"sideImageContainer"}
+        className={'sideImageContainer'}
         style={{
           backgroundImage: `url(${sideImgSrc})`,
-          backgroundPosition: "center",
-          backgroundSize: "cover",
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
         }}
       />
       <Row
         className={cx(
-          "pageContent",
-          alignCenter && "alignCenter",
-          theme === "light" ? "light" : "dark"
+          'pageContent',
+          alignCenter && 'alignCenter',
+          theme === 'light' ? 'light' : 'dark',
         )}
       >
         {children}

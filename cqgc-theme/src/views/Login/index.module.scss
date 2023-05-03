@@ -1,0 +1,60 @@
+@import "../../style/themes/cqgc/dist/colors";
+
+.loginPage {
+  :global(.ant-typography) {
+    margin: 0;
+  }
+
+  .realm {
+    margin-bottom: 0;
+    text-align: center;
+  }
+
+  .loginContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .logoContainer {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .loginForm {
+    max-width: 496px;
+    width: 100%;
+  }
+
+  .loginFormContent {
+    box-shadow: none;
+    border-style: none;
+    margin: 0;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .loginTitle {
+    width: 120px;
+  }
+
+  .loginCard {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 80px;
+    margin-left: 80px;
+  }
+
+  .switchLang {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+  }
+}

@@ -28,6 +28,7 @@ export const { kcContext } = getKcContext<KcContextExtension>({
   // Uncomment to test the login page for development.
   // mockPageId: "login.ftl",
   // mockPageId: 'register.ftl',
+  // mockPageId: 'login-verify-email.ftl',
   mockData: [
     {
       pageId: 'login.ftl',
@@ -104,6 +105,9 @@ export const { kcContext } = getKcContext<KcContextExtension>({
         get: (fieldName: string) => `Fake error for ${fieldName}`,
         exists: (fieldName: string) => fieldName === 'email',
       },
+    },
+    {
+      pageId: 'login-verify-email.ftl',
     },
   ],
 });

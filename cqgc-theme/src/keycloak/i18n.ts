@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { createUseI18n } from 'keycloakify/login';
 
 export const { useI18n } = createUseI18n({
@@ -22,6 +23,9 @@ export const { useI18n } = createUseI18n({
     institution_label: 'Prescribing Institution',
     is_resident_doctor_label: 'I am a resident doctor',
     confirm_password_label: 'Password Confirmation',
+    verify_email_title: 'A confirmation email has been sent to you',
+    verify_email_message:
+      'Click on the link in the email to complete the creation of your user account.',
   },
   fr: {
     /* spell-checker: disable */
@@ -41,6 +45,9 @@ export const { useI18n } = createUseI18n({
     institution_label: 'Sélectionnez vos établissements prescripteurs',
     is_resident_doctor_label: 'Je suis un médecin résident',
     confirm_password_label: 'Confirmation du mot de passe',
+    verify_email_title: 'Un courriel de confirmation vous a été envoyé',
+    verify_email_message:
+      'Cliquez sur le lien dans le courriel pour conclure la création de votre compte utilisateur.',
     /* spell-checker: enable */
   },
 });

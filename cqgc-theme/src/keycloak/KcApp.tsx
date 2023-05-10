@@ -1,6 +1,7 @@
 // import "./KcApp.css";
 import { lazy, Suspense } from 'react';
 import Fallback, { type PageProps } from 'keycloakify/login';
+import LoginVerifyEmail from 'views/VerifyEmail';
 
 import { useI18n } from './i18n';
 import type { KcContext } from './KcContext';
@@ -55,6 +56,14 @@ export default function App(props: { kcContext: KcContext }) {
           case 'register.ftl':
             return (
               <Register
+                {...{ kcContext, i18n, classes }}
+                Template={DefaultTemplate}
+                doUseDefaultCss={true}
+              />
+            );
+          case 'login-verify-email.ftl':
+            return (
+              <LoginVerifyEmail
                 {...{ kcContext, i18n, classes }}
                 Template={DefaultTemplate}
                 doUseDefaultCss={true}

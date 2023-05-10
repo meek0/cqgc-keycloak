@@ -25,15 +25,20 @@ const register = createAsyncThunk<
       'Cache-Control': 'max-age=0',
     },
     data: qs.stringify(args.registerForm, { arrayFormat: 'comma' }),
-  }).catch((err: Error | AxiosError) => {
-    if (api.isAxiosError(err)) {
-      if (err.response?.status === 401) {
-        window.location.href = args.redirectUrl;
-        return;
+  })
+    .then((response) => {
+      window.location.href = response.request.responseURL;
+    })
+    .catch((err: Error | AxiosError) => {
+      //XHR forced to follow redirect 302, which results at the end in a CORS error.Only way to catch this, its to verify if response is undefined.
+      if (api.isAxiosError(err)) {
+        if (!err.response) {
+          window.location.href = args.redirectUrl;
+          return;
+        }
       }
-    }
 
-    thunkAPI.dispatch(register.rejected(new Error(err.message), err.message, args));
-  });
+      thunkAPI.dispatch(register.rejected(new Error(err.message), err.message, args));
+    });
 });
 export { register };

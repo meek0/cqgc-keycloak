@@ -13,6 +13,8 @@ export const { useI18n } = createUseI18n({
     forgot_password: 'Forgot password',
     submit: 'Submit',
     cancel: 'Cancel',
+    login_failed_title: 'Login failed',
+    login_failed_message: 'Incorrect username or password. Please try again.',
     required_field_error: 'This field is required',
     registration_title: 'Create Your Account',
     title_label: 'Title',
@@ -35,6 +37,9 @@ export const { useI18n } = createUseI18n({
     forgot_password: 'Mot de passe oublié?',
     submit: 'Soumettre',
     cancel: 'Annuler',
+    login_failed_title: 'Connexion échouée',
+    login_failed_message:
+      "Il y a une erreur avec votre nom d'utilisateur ou votre mot de passe. Veuillez réessayer.",
     required_field_error: 'Ce champ est obligatoire',
     registration_title: 'Création de compte',
     title_label: 'Titre',

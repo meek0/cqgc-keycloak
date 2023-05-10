@@ -1,7 +1,7 @@
 // ejected using 'npx eject-keycloak-page'
 import { useState } from 'react';
-import { MailOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Space } from 'antd';
+import { MailOutlined, WarningOutlined } from '@ant-design/icons';
+import { Alert, Button, Form, Input, Space } from 'antd';
 import Link from 'antd/lib/typography/Link';
 import Title from 'antd/lib/typography/Title';
 import type { I18n } from 'keycloak/i18n';
@@ -25,7 +25,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: 'log
     classes,
   });
 
-  const { realm, url, locale } = kcContext;
+  const { realm, url, locale, message } = kcContext;
 
   const { currentLanguageTag, changeLocale, advancedMsg } = i18n;
 
@@ -73,6 +73,15 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: 'log
               {advancedMsg('login_title')}
             </Title>
           </div>
+          {message !== undefined && message.type === 'error' && (
+            <Alert
+              message={advancedMsg('login_failed_title')}
+              description={advancedMsg('login_failed_message')}
+              type={message.type}
+              showIcon
+              icon={<WarningOutlined />}
+            />
+          )}
           <Form
             className={styles.loginForm}
             id="kc-form-login"

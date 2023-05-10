@@ -1274,29 +1274,29 @@ html {
   line-height: 22px;
 }
 .ant-alert-success {
-  background-color: #d2dec8;
-  border: 1px solid #91c46e;
+  background-color: #f5ffeb;
+  border: 1px solid #95de64;
 }
 .ant-alert-success .ant-alert-icon {
   color: #389e0d;
 }
 .ant-alert-info {
-  background-color: #f0fdff;
-  border: 1px solid #a2ecfc;
+  background-color: #eaf3fa;
+  border: 1px solid #8bd7f4;
 }
 .ant-alert-info .ant-alert-icon {
   color: #23a4d7;
 }
 .ant-alert-warning {
   background-color: #fff1b8;
-  border: 1px solid #ffe58f;
+  border: 1px solid #ffc069;
 }
 .ant-alert-warning .ant-alert-icon {
   color: #faad14;
 }
 .ant-alert-error {
   background-color: #fef4f4;
-  border: 1px solid #cf6b6d;
+  border: 1px solid #ffa39e;
 }
 .ant-alert-error .ant-alert-icon {
   color: #a8071a;
@@ -26736,6 +26736,29 @@ div.ant-typography-edit-content.ant-typography-rtl {
 .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input,
 .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover {
   background-color: #fef4f4;
+}
+.ant-alert-success .ant-alert-message,
+.ant-alert-success .ant-alert-close-icon {
+  color: #135200;
+}
+.ant-alert-info .ant-alert-message,
+.ant-alert-info .ant-alert-close-icon {
+  color: #0a5085;
+}
+.ant-alert-warning .ant-alert-message,
+.ant-alert-warning .ant-alert-close-icon {
+  color: #612500;
+}
+.ant-alert-error .ant-alert-message,
+.ant-alert-error .ant-alert-close-icon {
+  color: #364a63;
+}
+.ant-alert-message a {
+  color: inherit;
+  text-decoration: underline;
+}
+.ant-alert-message a:hover {
+  text-decoration: none;
 }
 body {
   color: #364a63;

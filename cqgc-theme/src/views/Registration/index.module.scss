@@ -1,0 +1,25 @@
+.registerPage {
+    .registrationContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        width: 496px;
+
+        .registrationForm {
+            .inline > div {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 24px;
+
+                &:first-child div:first-child { // label
+                    padding: 0;
+                }
+
+                &:first-child div:nth-child(2) { // input
+                    width: unset;
+                }
+            }
+        }
+    }
+}

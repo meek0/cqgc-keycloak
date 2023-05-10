@@ -1,12 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 
+import RegistrationReducer from 'store/registration';
 import { RootState } from 'store/types';
-// Reducers
-// import RegistrationFlowReducer from "store/registrationFlow";
 
 const rootReducer = combineReducers<RootState>({
-  //   registrationFlow: RegistrationFlowReducer,
+  registration: RegistrationReducer,
 });
 
 const store: any = configureStore({

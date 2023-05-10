@@ -1,5 +1,15 @@
 import { getKcContext } from 'keycloakify/login';
 
+type TInstitution = {
+  label: string;
+  value: string;
+};
+
+type TAdditionalData = {
+  institutionOptions: TInstitution[];
+  redirectUrl: string;
+};
+
 export type KcContextExtension =
   // NOTE: A 'keycloakify' field must be added
   // in the package.json to generate theses extra pages
@@ -7,7 +17,7 @@ export type KcContextExtension =
   // NOTE: register.ftl is deprecated in favor of register-user-profile.ftl
   // but let's say we use it anyway and have this plugin enabled: https://github.com/micedre/keycloak-mail-whitelisting
   // keycloak-mail-whitelisting define the non standard ftl global authorizedMailDomains, we declare it here.
-  { pageId: 'register.ftl'; authorizedMailDomains: string[] };
+  { pageId: 'register.ftl'; redirectUrl: string; additionalData: TAdditionalData };
 
 //NOTE: In most of the cases you do not need to overload the KcContext, you can
 // just call getKcContext(...) without type arguments.
@@ -17,7 +27,7 @@ export type KcContextExtension =
 export const { kcContext } = getKcContext<KcContextExtension>({
   // Uncomment to test the login page for development.
   // mockPageId: "login.ftl",
-  mockPageId: 'register.ftl',
+  // mockPageId: 'register.ftl',
   mockData: [
     {
       pageId: 'login.ftl',
@@ -77,13 +87,12 @@ export const { kcContext } = getKcContext<KcContextExtension>({
     },
     {
       pageId: 'register.ftl',
-      authorizedMailDomains: [
-        'example.com',
-        'another-example.com',
-        '*.yet-another-example.com',
-        '*.example.com',
-        'hello-world.com',
-      ],
+      locale: {
+        //When we test the login page we do it in french
+        currentLanguageTag: 'fr',
+      },
+      redirectUrl: 'http://localhost:8080/realms/CLIN/account/#/',
+      additionalData: {},
       // Simulate we got an error with the email field
       messagesPerField: {
         printIfExists: <T>(fieldName: string, className: T) => {

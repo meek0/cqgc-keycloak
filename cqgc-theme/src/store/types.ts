@@ -1,5 +1,5 @@
-// import { RegistrationFlowInitialState } from "store/registrationFlow";
+import { RegistrationInitialState } from 'store/registration';
 
 export type RootState = {
-  //   registrationFlow: RegistrationFlowInitialState;
+  registration: RegistrationInitialState;
 };

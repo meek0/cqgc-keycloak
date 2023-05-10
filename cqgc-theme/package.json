@@ -22,14 +22,15 @@
     "license": "MIT",
     "keywords": [],
     "dependencies": {
-        "antd": "^4.20.0",
         "@ferlab/ui": "^5.5.8",
         "@ferlab/style": "^1.29.2",
         "@reduxjs/toolkit": "^1.9.5",
+        "antd": "^4.20.0",
+        "axios": "^1.4.0",
         "keycloakify": "^7.6.3",
         "react": "18.1.0",
         "react-dom": "18.1.0",
-        "react-redux": "^8.0.5"
+        "react-redux": "^7.2.6"
     },
     "devDependencies": {
         "@types/node": "^15.3.1",

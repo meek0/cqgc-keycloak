@@ -1,5 +1,9 @@
 package bio.ferlab.keycloak.forms;
 
+import bio.ferlab.keycloak.fhir.FhirClient;
+import bio.ferlab.keycloak.fhir.OrganizationResource;
+import bio.ferlab.keycloak.fhir.PractitionerRoleResponseEntryResource;
+import bio.ferlab.keycloak.helpers.SystemTokenRetriever;
 import org.keycloak.Config;
 import org.keycloak.authentication.FormAction;
 import org.keycloak.authentication.FormActionFactory;
@@ -19,19 +23,32 @@ import org.keycloak.userprofile.UserProfile;
 import org.keycloak.userprofile.UserProfileContext;
 import org.keycloak.userprofile.UserProfileProvider;
 import org.keycloak.userprofile.ValidationException;
+import org.keycloak.validate.ValidationError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.core.MultivaluedMap;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class RegistrationFhirUserCreation implements FormAction, FormActionFactory {
     public static final String PROVIDER_ID = "registration-fhir-user-creation";
 
     Logger logger = LoggerFactory.getLogger(RegistrationFhirUserCreation.class);
+
+    SystemTokenRetriever tokenRetriever = new SystemTokenRetriever();
+    FhirClient fhirClient = new FhirClient();
+
+    private static final List<ProviderConfigProperty> configProperties = new ArrayList<>();
+
+    static {
+        ProviderConfigProperty property;
+        property = new ProviderConfigProperty();
+        property.setName("fhirUrl");
+        property.setLabel("FHIR URL");
+        property.setType(ProviderConfigProperty.TEXT_TYPE);
+        configProperties.add(property);
+    }
 
     @Override
     public String getHelpText() {
@@ -40,36 +57,41 @@ public class RegistrationFhirUserCreation implements FormAction, FormActionFacto
 
     @Override
     public List<ProviderConfigProperty> getConfigProperties() {
-        return null;
+        return configProperties;
     }
 
     @Override
     public void validate(ValidationContext context) {
-        logger.info("validate");
+        logger.info(context.getClass().getName());
         MultivaluedMap<String, String> formData = context.getHttpRequest().getDecodedFormParameters();
         context.getEvent().detail(Details.REGISTER_METHOD, "form");
 
         KeycloakSession session = context.getSession();
         UserProfileProvider profileProvider = session.getProvider(UserProfileProvider.class);
         UserProfile profile = profileProvider.create(UserProfileContext.REGISTRATION_USER_CREATION, formData);
-        String email = profile.getAttributes().getFirstValue(UserModel.EMAIL);
 
-        String username = profile.getAttributes().getFirstValue(UserModel.USERNAME);
+        String email = profile.getAttributes().getFirstValue(UserModel.EMAIL);
         String firstName = profile.getAttributes().getFirstValue(UserModel.FIRST_NAME);
         String lastName = profile.getAttributes().getFirstValue(UserModel.LAST_NAME);
-        context.getEvent().detail(Details.EMAIL, email);
 
-        context.getEvent().detail(Details.USERNAME, username);
+        context.getEvent().detail(Details.EMAIL, email);
+        context.getEvent().detail(Details.USERNAME, email);
         context.getEvent().detail(Details.FIRST_NAME, firstName);
         context.getEvent().detail(Details.LAST_NAME, lastName);
 
-        if (context.getRealm().isRegistrationEmailAsUsername()) {
-            context.getEvent().detail(Details.USERNAME, email);
-        }
-
         try {
+            UserCreationValidator.validate(profile);
+            String accessToken = tokenRetriever.getAccessToken(context);
+            if(fhirClient.doesPractitionerExist(accessToken, getFhirUrl(context), email)) {
+                ValidationException exception = new ValidationException();
+                exception.accept(new ValidationError("validateEmail", "email", Messages.EMAIL_EXISTS));
+                context.error("totoooooo");
+                throw exception;
+            }
             profile.validate();
         } catch (ValidationException pve) {
+            logger.info("validation fail");
+            pve.getErrors().forEach(e -> logger.info(e.getMessage()));
             List<FormMessage> errors = Validation.getFormErrorsFromValidation(pve.getErrors());
 
             if (pve.hasError(Messages.EMAIL_EXISTS)) {
@@ -84,16 +106,18 @@ public class RegistrationFhirUserCreation implements FormAction, FormActionFacto
             return;
         }
         context.success();
+        logger.info("validation success");
     }
 
     @Override
     public void buildPage(FormContext context, LoginFormsProvider form) {
-        logger.info("buildPage");
+        String accessToken = tokenRetriever.getAccessToken(context);
+        List<OrganizationResource> organizations = fhirClient.getOrganizations(accessToken, getFhirUrl(context));
+        List<Map> institutionOptions = organizations.stream()
+                .map(org -> new Institution(org.name, org.alias.get(0), org.id).asMap())
+                .collect(Collectors.toList());
+
         Map<String, Object> additionalData = new HashMap<>();
-        List<Map> institutionOptions = new ArrayList<>();
-        institutionOptions.add(new Institution("Etab A", "A").asMap());
-        institutionOptions.add(new Institution("Etab B", "B").asMap());
-        institutionOptions.add(new Institution("Etab C", "C").asMap());
         additionalData.put("institutionOptions", institutionOptions);
         additionalData.put("redirectUrl", context.getAuthenticationSession().getRedirectUri());
 
@@ -102,31 +126,60 @@ public class RegistrationFhirUserCreation implements FormAction, FormActionFacto
 
     @Override
     public void success(FormContext context) {
-        logger.info("success");
+        logger.info("success start");
         MultivaluedMap<String, String> formData = context.getHttpRequest().getDecodedFormParameters();
 
         String email = formData.getFirst(UserModel.EMAIL);
-        String username = formData.getFirst(UserModel.USERNAME);
 
-        if (context.getRealm().isRegistrationEmailAsUsername()) {
-            username = email;
-        }
-
-        context.getEvent().detail(Details.USERNAME, username)
+        context.getEvent()
                 .detail(Details.REGISTER_METHOD, "form")
                 .detail(Details.EMAIL, email);
 
         KeycloakSession session = context.getSession();
-
         UserProfileProvider profileProvider = session.getProvider(UserProfileProvider.class);
-        UserProfile profile = profileProvider.create(UserProfileContext.REGISTRATION_USER_CREATION, formData);
-        UserModel user = profile.create();
+
+        String accessToken = tokenRetriever.getAccessToken(context);
+        List<PractitionerRoleResponseEntryResource> existingRoles = fhirClient.getPractitionerRoles(accessToken, getFhirUrl(context), email);
+        UserModel user;
+
+        if (existingRoles.isEmpty()) {
+            String fhirId = fhirClient.createUserInFhir(accessToken, getFhirUrl(context), formData);
+            formData.put("user.attributes.fhir_practitioner_id", Collections.singletonList(fhirId));
+            formData.remove("user.attributes.license_confirm");
+
+            UserProfile profile = profileProvider.create(UserProfileContext.REGISTRATION_USER_CREATION, formData);
+            user = profile.create();
+        } else if (existingRoles.stream().anyMatch(PractitionerRoleResponseEntryResource::isPractitioner)) {
+            ValidationException exception = new ValidationException();
+            exception.accept(new ValidationError("validateEmail", "email", Messages.EMAIL_EXISTS));
+            throw exception;
+        } else {
+            user = context.getSession().users().getUserByEmail(context.getRealm(), email);
+            fhirClient.updateUserRolesInFhir(accessToken, getFhirUrl(context), formData, buildPractitionerRef(user.getAttributes().get("fhir_practitioner_id").get(0)));
+        }
+
+//        if (fhirClient.doesPractitionerExist(accessToken, getFhirUrl(context), email)) {
+//            user = context.getSession().users().getUserByEmail(context.getRealm(), email);
+//            fhirClient.updateUserRolesInFhir(accessToken, getFhirUrl(context), formData, buildPractitionerRef(user.getAttributes().get("fhir_practitioner_id").get(0)));
+//        } else {
+//            String fhirId = fhirClient.createUserInFhir(accessToken, getFhirUrl(context), formData);
+//            formData.put("user.attributes.fhir_practitioner_id", Collections.singletonList(fhirId));
+//            formData.remove("user.attributes.license_confirm");
+//
+//            UserProfile profile = profileProvider.create(UserProfileContext.REGISTRATION_USER_CREATION, formData);
+//            user = profile.create();
+//        }
+
+        RoleModel rolePractitioner = context.getRealm().getRole("clin_practitioner");
+        user.grantRole(rolePractitioner);
 
         user.setEnabled(true);
 
+        joinGroupsForEachOrganization(context, user, formData.get("user.attributes.institutions").get(0));
+
         context.setUser(user);
 
-        context.getAuthenticationSession().setClientNote(OIDCLoginProtocol.LOGIN_HINT_PARAM, username);
+        context.getAuthenticationSession().setClientNote(OIDCLoginProtocol.LOGIN_HINT_PARAM, email);
 
         context.getEvent().user(user);
         context.getEvent().success();
@@ -137,6 +190,20 @@ public class RegistrationFhirUserCreation implements FormAction, FormActionFacto
         String authType = context.getAuthenticationSession().getAuthNote(Details.AUTH_TYPE);
         if (authType != null) {
             context.getEvent().detail(Details.AUTH_TYPE, authType);
+        }
+    }
+
+    private void joinGroupsForEachOrganization(FormContext context, UserModel user, String organizationsAsString) {
+        String[] organizations = organizationsAsString.split(",");
+        for (String org : organizations) {
+            Optional<GroupModel> group = context.getRealm().getGroupsStream().filter(g -> g.getName().equals(org)).findFirst();
+            if (group.isPresent()) {
+                user.joinGroup(group.get());
+            } else {
+                GroupModel newGroup = context.getRealm().createGroup(org);
+                newGroup.setAttribute("fhir_organization_id", Collections.singletonList(org));
+                user.joinGroup(newGroup);
+            }
         }
     }
 
@@ -178,17 +245,19 @@ public class RegistrationFhirUserCreation implements FormAction, FormActionFacto
 
     @Override
     public boolean isConfigurable() {
-        return false;
+        return true;
     }
 
     private static AuthenticationExecutionModel.Requirement[] REQUIREMENT_CHOICES = {
             AuthenticationExecutionModel.Requirement.REQUIRED,
             AuthenticationExecutionModel.Requirement.DISABLED
     };
+
     @Override
     public AuthenticationExecutionModel.Requirement[] getRequirementChoices() {
         return REQUIREMENT_CHOICES;
     }
+
     @Override
     public FormAction create(KeycloakSession session) {
         return this;
@@ -207,5 +276,13 @@ public class RegistrationFhirUserCreation implements FormAction, FormActionFacto
     @Override
     public String getId() {
         return PROVIDER_ID;
+    }
+
+    private String getFhirUrl(FormContext context) {
+        return context.getAuthenticatorConfig().getConfig().get("fhirUrl") + "/fhir";
+    }
+
+    private String buildPractitionerRef(String practitionerFhirId) {
+        return "Practitioner/" + practitionerFhirId;
     }
 }

@@ -114,7 +114,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: 'log
               <Button type="primary" htmlType="submit" disabled={isLoginButtonDisabled}>
                 {advancedMsg('submit')}
               </Button>
-              <Link>{advancedMsg('cancel')}</Link>
+              <Link href={url.registrationUrl}>{advancedMsg('cancel')}</Link>
             </Space>
           </Form>
         </div>

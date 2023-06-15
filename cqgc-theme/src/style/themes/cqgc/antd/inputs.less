@@ -4,6 +4,11 @@
 @input-icon-hover-color: @gray-6;
 
 .@{input-prefix-cls} {
+  &-affix-wrapper > &:focus {
+    box-shadow: none !important;
+    border: none;
+  }
+
   &::placeholder {
     color: @gray-6 !important;
   }
@@ -55,6 +60,9 @@
 
 // Should now be necessary with @form-error-input-bg but bug with current version of antd
 .@{input-prefix-cls}-status-error:not(.@{input-prefix-cls}-disabled):not(.@{input-prefix-cls}-borderless).@{input-prefix-cls},
-.@{input-prefix-cls}-status-error:not(.@{input-prefix-cls}-disabled):not(.@{input-prefix-cls}-borderless).@{input-prefix-cls}:hover {
+.@{input-prefix-cls}-affix-wrapper-status-error:not(.@{input-prefix-cls}-affix-wrapper-disabled):not(.@{input-prefix-cls}-affix-wrapper-borderless).@{input-prefix-cls}-affix-wrapper,
+.@{input-prefix-cls}-status-error:not(.@{input-prefix-cls}-disabled):not(.@{input-prefix-cls}-borderless).@{input-prefix-cls}:hover,
+.@{input-prefix-cls}-affix-wrapper-status-error:not(.@{input-prefix-cls}-affix-wrapper-disabled):not(.@{input-prefix-cls}-affix-wrapper-borderless).@{input-prefix-cls}-affix-wrapper:hover,
+.@{input-prefix-cls}-affix-wrapper-status-error > .@{input-prefix-cls}:not(textarea) {
   background-color: @red-0;
 }

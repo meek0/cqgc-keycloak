@@ -29,6 +29,7 @@ export const { kcContext } = getKcContext<KcContextExtension>({
   // mockPageId: "login.ftl",
   // mockPageId: 'register.ftl',
   // mockPageId: 'login-verify-email.ftl',
+  // mockPageId: 'error.ftl',
   mockData: [
     {
       pageId: 'login.ftl',
@@ -42,72 +43,30 @@ export const { kcContext } = getKcContext<KcContextExtension>({
       //message: { type: "error", summary: "This is an error" }
     },
     {
-      //NOTE: You will either use register.ftl (legacy) or register-user-profile.ftl, not both
-      pageId: 'register-user-profile.ftl',
-      locale: {
-        currentLanguageTag: 'fr',
-      },
-      profile: {
-        attributes: [
-          {
-            validators: {
-              pattern: {
-                pattern: '^[a-zA-Z0-9]+$',
-                'ignore.empty.value': true,
-                // eslint-disable-next-line no-template-curly-in-string
-                'error-message': '${alphanumericalCharsOnly}',
-              },
-            },
-            //NOTE: To override the default mock value
-            value: undefined,
-            name: 'username',
-          },
-          {
-            validators: {
-              options: {
-                options: [
-                  'male',
-                  'female',
-                  'non-binary',
-                  'transgender',
-                  'intersex',
-                  'non_communicated',
-                ],
-              },
-            },
-            // eslint-disable-next-line no-template-curly-in-string
-            displayName: '${gender}',
-            annotations: {},
-            required: true,
-            groupAnnotations: {},
-            readOnly: false,
-            name: 'gender',
-          },
-        ],
-      },
-    },
-    {
       pageId: 'register.ftl',
       locale: {
         //When we test the login page we do it in french
         currentLanguageTag: 'fr',
       },
-      redirectUrl: 'http://localhost:8080/realms/CLIN/account/#/',
-      additionalData: {},
-      // Simulate we got an error with the email field
-      messagesPerField: {
-        printIfExists: <T>(fieldName: string, className: T) => {
-          // eslint-disable-next-line no-console
-          console.log({ fieldName });
-          return fieldName === 'email' ? className : undefined;
-        },
-        existsError: (fieldName: string) => fieldName === 'email',
-        get: (fieldName: string) => `Fake error for ${fieldName}`,
-        exists: (fieldName: string) => fieldName === 'email',
+      additionalData: {
+        institutionOptions: [
+          { label: 'Etab A', value: 'A' },
+          { label: 'Etab B', value: 'B' },
+          { label: 'Etab C', value: 'C' },
+        ],
+        redirectUrl: 'http://host.docker.internal:8081/realms/CLIN/account/#/',
       },
+      message: undefined,
     },
     {
       pageId: 'login-verify-email.ftl',
+    },
+    {
+      pageId: 'error.ftl',
+      locale: {
+        //When we test the login page we do it in french
+        currentLanguageTag: 'fr',
+      },
     },
   ],
 });

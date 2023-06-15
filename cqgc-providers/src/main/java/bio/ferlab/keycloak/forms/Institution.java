@@ -8,8 +8,8 @@ public class Institution implements Serializable {
     public String label;
     public String value;
 
-    public Institution(String label, String value) {
-        this.label = label;
+    public Institution(String label, String alias, String value) {
+        this.label = label + " (" + alias + ")";
         this.value = value;
     }
 

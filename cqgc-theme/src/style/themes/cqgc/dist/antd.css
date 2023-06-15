@@ -26690,6 +26690,10 @@ div.ant-typography-edit-content.ant-typography-rtl {
 .ant-btn-link:not(:disabled) span:not(:hover) {
   text-decoration: underline;
 }
+.ant-input-affix-wrapper > .ant-input:focus {
+  box-shadow: none !important;
+  border: none;
+}
 .ant-input::placeholder {
   color: #8b9db2 !important;
 }
@@ -26734,7 +26738,10 @@ div.ant-typography-edit-content.ant-typography-rtl {
   color: #8b9db2;
 }
 .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input,
-.ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover {
+.ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper,
+.ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover,
+.ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper:hover,
+.ant-input-affix-wrapper-status-error > .ant-input:not(textarea) {
   background-color: #fef4f4;
 }
 .ant-alert-success .ant-alert-message,
@@ -26759,6 +26766,43 @@ div.ant-typography-edit-content.ant-typography-rtl {
 }
 .ant-alert-message a:hover {
   text-decoration: none;
+}
+.ant-select-selection-overflow-item.ant-select-selection-overflow-item-rest .ant-select-selection-item {
+  background: #006aa3;
+  color: white;
+  border: none;
+  height: 20px;
+  display: flex;
+  align-items: center;
+}
+.ant-select-item-option-state * {
+  color: #8b9db2;
+}
+.ant-select {
+  color: #364a63;
+}
+.ant-select.ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  background-color: #f1f5f9;
+}
+.ant-select-selection-placeholder {
+  color: #8b9db2;
+}
+.ant-select:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  border: 1px solid #b3c2d3;
+}
+.ant-select:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector:hover {
+  border: 1px solid #1d8bc6;
+}
+.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  border: 1px solid #1d8bc6;
+  box-shadow: 0px 0px 0px 2px #8bd7f4;
+}
+.ant-select-single.ant-select-focused.ant-select-open .ant-select-selection-item {
+  color: #364a63;
+}
+.ant-select-status-error.ant-select:not(.ant-select-disabled):not(.ant-select-customize-input) .ant-select-selector,
+.ant-select-status-error.ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer) .ant-select-selector {
+  background-color: #fef4f4;
 }
 body {
   color: #364a63;

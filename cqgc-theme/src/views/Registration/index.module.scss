@@ -9,7 +9,7 @@
             .inline > div {
                 display: flex;
                 flex-direction: row;
-                align-items: center;
+                align-items: baseline;
                 gap: 24px;
 
                 &:first-child div:first-child { // label

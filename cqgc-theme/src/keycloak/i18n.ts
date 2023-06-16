@@ -45,6 +45,12 @@ export const { useI18n } = createUseI18n({
     error_contact_name: 'René Allard (HSJ)',
     error_contact_email: 'rene.allard.hsj@ssss.gouv.qc.ca',
     error_contact_phone: '514-345-4931 # 6193',
+    email_already_exists_title: 'An account with this email address already exists',
+    email_already_exists_message_1: 'Please',
+    email_already_exists_message_2: 'or',
+    email_already_exists_login: 'log in',
+    email_already_exists_reset_password: 'reset your password',
+    email_already_exists_contact_text: 'If you continue to experience issues, please contact us:',
     /* spell-checker: enable */
   },
   fr: {
@@ -87,6 +93,13 @@ export const { useI18n } = createUseI18n({
     error_contact_name: 'René Allard (HSJ)',
     error_contact_email: 'rene.allard.hsj@ssss.gouv.qc.ca',
     error_contact_phone: '514-345-4931 #6193',
+    email_already_exists_title: 'Un compte avec cette adresse courriel existe déjà',
+    email_already_exists_message_1: 'Veuillez',
+    email_already_exists_message_2: 'ou',
+    email_already_exists_login: 'vous connecter',
+    email_already_exists_reset_password: 'réinitialiser votre mot de passe',
+    email_already_exists_contact_text:
+      'Si vous continuez à rencontrer des problèmes, veuillez nous contacter :',
     /* spell-checker: enable */
   },
 });

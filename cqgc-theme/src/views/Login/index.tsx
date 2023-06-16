@@ -106,7 +106,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: 'log
             >
               <div>
                 <Input.Password id="password" name="password" tabIndex={2} />
-                <Link>{advancedMsg('forgot_password')}</Link>
+                <Link href={url.loginResetCredentialsUrl}>{advancedMsg('forgot_password')}</Link>
               </div>
             </Form.Item>
 

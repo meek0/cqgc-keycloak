@@ -7,6 +7,7 @@ import { register } from './thunks';
 export const RegistrationState: initialState = {
   registerForm: null,
   hasError: false,
+  errorMessage: '',
 };
 
 const registrationFlowSlice = createSlice({
@@ -14,8 +15,9 @@ const registrationFlowSlice = createSlice({
   initialState: RegistrationState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(register.rejected, (state) => {
+    builder.addCase(register.rejected, (state, action) => {
       state.hasError = true;
+      state.errorMessage = action.error.message || '';
     });
     builder.addCase(register.pending, (state) => {
       state.hasError = false;

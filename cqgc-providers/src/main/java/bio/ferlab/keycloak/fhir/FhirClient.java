@@ -12,7 +12,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -72,29 +71,29 @@ public class FhirClient {
         }
     }
 
-    public List<PractitionerRoleResponseEntryResource> getPractitionerRoles(String accessToken, String fhirUrl, String email) {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(fhirUrl + "/PractitionerRole?_count=100&email=" + email.trim()))
-                .header("Authorization", "Bearer " + accessToken)
-                .GET()
-                .build();
-
-        try {
-            String responseBody = client
-                    .sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                    .thenApply(HttpResponse::body).get();
-
-            logger.info(responseBody);
-
-            PractitionerRoleResponse response = objectMapper.readValue(responseBody, PractitionerRoleResponse.class);
-
-            return response.entry != null ? response.entry.stream().map(e -> e.resource).collect(Collectors.toList()) : Collections.emptyList();
-
-        } catch (InterruptedException | ExecutionException | JsonProcessingException e) {
-            logger.error(e.getMessage());
-            throw new RuntimeException(e);
-        }
-    }
+//    public List<PractitionerRoleResponseEntryResource> getPractitionerRoles(String accessToken, String fhirUrl, String email) {
+//        HttpRequest request = HttpRequest.newBuilder()
+//                .uri(URI.create(fhirUrl + "/PractitionerRole?_count=100&email=" + email.trim()))
+//                .header("Authorization", "Bearer " + accessToken)
+//                .GET()
+//                .build();
+//
+//        try {
+//            String responseBody = client
+//                    .sendAsync(request, HttpResponse.BodyHandlers.ofString())
+//                    .thenApply(HttpResponse::body).get();
+//
+//            logger.info(responseBody);
+//
+//            PractitionerRoleResponse response = objectMapper.readValue(responseBody, PractitionerRoleResponse.class);
+//
+//            return response.entry != null ? response.entry.stream().map(e -> e.resource).collect(Collectors.toList()) : Collections.emptyList();
+//
+//        } catch (InterruptedException | ExecutionException | JsonProcessingException e) {
+//            logger.error(e.getMessage());
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public String createUserInFhir(String accessToken, String fhirUrl, MultivaluedMap<String, String> formData) {
         Practitioner practitioner = new Practitioner(
@@ -127,7 +126,7 @@ public class FhirClient {
 
             return postBundleResponse.entry.stream()
                     .filter(e -> e.response.location.startsWith("Practitioner/"))
-                    .map(e -> extractFhirIdFromEntry(e))
+                    .map(this::extractFhirIdFromEntry)
                     .findFirst()
                     .get();
         } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
@@ -136,34 +135,34 @@ public class FhirClient {
         }
     }
 
-    public void updateUserRolesInFhir(String accessToken, String fhirUrl, MultivaluedMap<String, String> formData, String practitionerReference){
-        List<String> organizations = Arrays.asList(formData.getFirst("user.attributes.institutions").split(","));
-        List<PractitionerRole> practitionerRoles = organizations.stream()
-                .map(org -> new PractitionerRole(practitionerReference, org, formData.getFirst("email"), Boolean.parseBoolean(formData.getFirst("user.attributes.is_resident_doctor"))))
-                .collect(Collectors.toList());
-
-        PostBundleBody bundle = new PostBundleBody(practitionerRoles);
-        try {
-            String body = objectMapper.writeValueAsString(bundle);
-
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(fhirUrl))
-                    .header("Authorization", "Bearer " + accessToken)
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(body))
-                    .build();
-
-            String responseBody = client
-                    .sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                    .thenApply(HttpResponse::body).get();
-
-            logger.info(responseBody);
-
-        } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
-            logger.error(e.getMessage());
-            throw new RuntimeException(e);
-        }
-    }
+//    public void updateUserRolesInFhir(String accessToken, String fhirUrl, MultivaluedMap<String, String> formData, String practitionerReference){
+//        List<String> organizations = Arrays.asList(formData.getFirst("user.attributes.institutions").split(","));
+//        List<PractitionerRole> practitionerRoles = organizations.stream()
+//                .map(org -> new PractitionerRole(practitionerReference, org, formData.getFirst("email"), Boolean.parseBoolean(formData.getFirst("user.attributes.is_resident_doctor"))))
+//                .collect(Collectors.toList());
+//
+//        PostBundleBody bundle = new PostBundleBody(practitionerRoles);
+//        try {
+//            String body = objectMapper.writeValueAsString(bundle);
+//
+//            HttpRequest request = HttpRequest.newBuilder()
+//                    .uri(URI.create(fhirUrl))
+//                    .header("Authorization", "Bearer " + accessToken)
+//                    .header("Content-Type", "application/json")
+//                    .POST(HttpRequest.BodyPublishers.ofString(body))
+//                    .build();
+//
+//            String responseBody = client
+//                    .sendAsync(request, HttpResponse.BodyHandlers.ofString())
+//                    .thenApply(HttpResponse::body).get();
+//
+//            logger.info(responseBody);
+//
+//        } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
+//            logger.error(e.getMessage());
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     private String extractFhirIdFromEntry(PostBundleResponseEntry entry) {
         String[] locationSplit = entry.response.location.split("/");

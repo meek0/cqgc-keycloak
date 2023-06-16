@@ -27,7 +27,17 @@ const register = createAsyncThunk<
     data: qs.stringify(args.registerForm, { arrayFormat: 'comma' }),
   })
     .then((response) => {
-      window.location.href = response.request.responseURL;
+      const text = response.data;
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(text, 'text/html');
+      const errorMessage = eval(doc.getElementsByTagName('script')[0].text).message.summary;
+      const error = eval(doc.getElementsByTagName('script')[0].text).message.error; // Boolean
+
+      if (!error) {
+        window.location.href = response.request.responseURL;
+      } else {
+        thunkAPI.dispatch(register.rejected(new Error(errorMessage), errorMessage, args));
+      }
     })
     .catch((err: Error | AxiosError) => {
       //XHR forced to follow redirect 302, which results at the end in a CORS error.Only way to catch this, its to verify if response is undefined.

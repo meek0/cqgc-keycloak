@@ -41,6 +41,7 @@ public class SystemTokenRetriever {
             String responseBody = client
                     .sendAsync(request, HttpResponse.BodyHandlers.ofString())
                     .thenApply(HttpResponse::body).get();
+
             Map<String, String> jsonBody = objectMapper.readValue(responseBody, new TypeReference<>() {
             });
 

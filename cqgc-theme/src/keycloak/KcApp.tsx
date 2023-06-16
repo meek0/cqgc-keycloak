@@ -10,7 +10,6 @@ const DefaultTemplate = lazy(() => import('keycloakify/login/Template'));
 
 const Login = lazy(() => import('views/Login'));
 const Register = lazy(() => import('views/Registration'));
-// const Register = lazy(() => import('views/OldRegistration'));
 
 export default function App(props: { kcContext: KcContext }) {
   const { kcContext } = props;

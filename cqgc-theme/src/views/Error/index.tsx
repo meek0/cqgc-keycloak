@@ -12,6 +12,8 @@ import styles from './index.module.scss';
 
 const { Title, Text } = Typography;
 
+const expiryMessages = ['Action expired', 'Action expirée'];
+
 const ErrorContainer = ({
   redirectUrl,
   advancedMsg,
@@ -36,18 +38,49 @@ const ErrorContainer = ({
   </div>
 );
 
+const ExpiryErrorContainer = ({
+  redirectUrl,
+  advancedMsg,
+}: {
+  redirectUrl: string;
+  advancedMsg: any;
+}) => (
+  <div className={styles.expiryErrorContainer}>
+    <ErrorIcon className={styles.errorIcon} />
+    <Title level={4}>{advancedMsg('expiry_error_title')}</Title>
+    <Text className={styles.errorMessage}>{advancedMsg('expiry_error_message_1')}</Text>
+    <Text className={styles.errorMessage}>
+      {advancedMsg('expiry_error_message_2')}{' '}
+      <Link href={redirectUrl}>{advancedMsg('expiry_error_try_again')}</Link>
+      {'.'}
+    </Text>
+  </div>
+);
+
 const Error = (props: PageProps<Extract<KcContext, { pageId: 'error.ftl' }>, I18n>) => {
   const { kcContext, i18n } = props;
 
-  const { client } = kcContext;
+  const { message, url } = kcContext;
 
   const { advancedMsgStr } = i18n;
 
+  const isTokenExpired = expiryMessages.filter((m) => message.summary.includes(m)).length > 0;
+
   return (
     <SideImageLayout sideImgSrc={MainSideImage} className={styles.errorPage}>
-      <ErrorContainer redirectUrl={client.baseUrl || ''} advancedMsg={advancedMsgStr} />
+      <div>
+        {isTokenExpired && (
+          <ExpiryErrorContainer
+            redirectUrl={window.location.href.replace('action-token', 'reset-credentials')}
+            advancedMsg={advancedMsgStr}
+          />
+        )}
+        {!isTokenExpired && (
+          <ErrorContainer redirectUrl={url.loginUrl} advancedMsg={advancedMsgStr} />
+        )}
+      </div>
     </SideImageLayout>
   );
 };
 
-export { Error, ErrorContainer };
+export { Error, ErrorContainer, ExpiryErrorContainer };

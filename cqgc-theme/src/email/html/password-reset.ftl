@@ -461,8 +461,8 @@
                                             <tr>
                                                 <td width="600" valign="top" class="fw-100" bgcolor="#ffffff" align="center" style=" mso-table-lspace:0pt; mso-table-rspace:0pt; font-family:Arial, sans-serif; color:#536377;text-align: center;">
                                                     <p style="font-size: 13px; line-height: 18px; text-align: left; font-family: Arial, sans-serif; color:#536377; padding: 0; margin: 0; font-weight: 400;">
-                                                        ${msg("verificationEmailSalutation")?no_esc}<br><br>
-                                                        ${msg("verificationEmailMessage")?no_esc}
+                                                        ${msg("passwordResetSalutation")?no_esc}<br><br>
+                                                        ${msg("passwordResetBodyHtml1", linkExpirationFormatter(linkExpiration))?no_esc}
                                                     </p>
                                                 </td>
                                             </tr>
@@ -474,7 +474,19 @@
                                             <tr>
                                                 <td width="600" valign="top" class="fw-100" bgcolor="#ffffff" align="center" style=" mso-table-lspace:0pt; mso-table-rspace:0pt; font-family:Arial, sans-serif; color:#536377;text-align: center;">
                                                     <p style="font-size: 13px; line-height: 18px; text-align: left; font-family: Arial, sans-serif; color:#536377; padding: 0; margin: 0; font-weight: 400;">
-                                                        ${msg("verificationEmailLink", link)?no_esc}
+                                                        ${msg("passwordResetBodyHtml2", link)?no_esc}
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="line-height: 10px; font-size: 10px;">
+                                                    &nbsp;
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="600" valign="top" class="fw-100" bgcolor="#ffffff" align="center" style=" mso-table-lspace:0pt; mso-table-rspace:0pt; font-family:Arial, sans-serif; color:#536377;text-align: center;">
+                                                    <p style="font-size: 13px; line-height: 18px; text-align: left; font-family: Arial, sans-serif; color:#536377; padding: 0; margin: 0; font-weight: 400;">
+                                                        ${msg("passwordResetBodyHtml3")?no_esc}
                                                     </p>
                                                 </td>
                                             </tr>

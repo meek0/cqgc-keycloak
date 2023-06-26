@@ -40,6 +40,8 @@ export default function Register(
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
+  const resetPasswordUrl = window.location.href.replace('registration', 'reset-credentials');
+
   const { kcContext, i18n } = props;
 
   const { advancedMsg, advancedMsgStr, currentLanguageTag } = i18n;
@@ -98,7 +100,6 @@ export default function Register(
       register({
         registerForm: values,
         url: url.registrationAction,
-        redirectUrl: 'http://host.docker.internal:8081/realms/CLIN/account/#/',
       }),
     );
   };
@@ -267,7 +268,16 @@ export default function Register(
                 <Button type="primary" htmlType="submit" disabled={isLoginButtonDisabled}>
                   {advancedMsg('submit')}
                 </Button>
-                <Button onClick={() => {}}>{advancedMsg('cancel')}</Button>
+                <Button
+                  onClick={() =>
+                    (window.location.href = window.location.href.replace(
+                      'registration',
+                      'authenticate',
+                    ))
+                  }
+                >
+                  {advancedMsg('cancel')}
+                </Button>
               </Space>
             </Form>
           </div>
@@ -275,7 +285,7 @@ export default function Register(
         {errorMessage === 'error_email_already_exists' && (
           <EmailAlreadyExists
             loginUrl={url.loginUrl}
-            resetPasswordUrl={window.location.href}
+            resetPasswordUrl={resetPasswordUrl}
             advancedMsg={advancedMsgStr}
           />
         )}

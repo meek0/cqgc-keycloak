@@ -12,7 +12,6 @@ const register = createAsyncThunk<
   {
     registerForm: TRegisterForm;
     url: string;
-    redirectUrl: string;
   },
   { rejectValue: string; state: RootState }
 >('user/register', async (args, thunkAPI) => {
@@ -40,14 +39,6 @@ const register = createAsyncThunk<
       }
     })
     .catch((err: Error | AxiosError) => {
-      //XHR forced to follow redirect 302, which results at the end in a CORS error.Only way to catch this, its to verify if response is undefined.
-      if (api.isAxiosError(err)) {
-        if (!err.response) {
-          window.location.href = args.redirectUrl;
-          return;
-        }
-      }
-
       thunkAPI.dispatch(register.rejected(new Error(err.message), err.message, args));
     });
 });

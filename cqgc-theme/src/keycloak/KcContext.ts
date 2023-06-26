@@ -30,6 +30,8 @@ export const { kcContext } = getKcContext<KcContextExtension>({
   // mockPageId: 'register.ftl',
   // mockPageId: 'login-verify-email.ftl',
   // mockPageId: 'error.ftl',
+  // mockPageId: 'login-reset-password.ftl',
+  // mockPageId: 'login-update-password.ftl',
   mockData: [
     {
       pageId: 'login.ftl',
@@ -64,9 +66,22 @@ export const { kcContext } = getKcContext<KcContextExtension>({
     {
       pageId: 'error.ftl',
       locale: {
-        //When we test the login page we do it in french
         currentLanguageTag: 'fr',
       },
+    },
+    {
+      pageId: 'login-reset-password.ftl',
+      locale: {
+        currentLanguageTag: 'fr',
+      },
+    },
+    {
+      pageId: 'login-update-password.ftl',
+      username: 'johndoe.med@ssss.gouv.qc.ca',
+      locale: {
+        currentLanguageTag: 'en',
+      },
+      message: undefined,
     },
   ],
 });

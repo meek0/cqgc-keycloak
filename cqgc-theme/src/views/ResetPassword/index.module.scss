@@ -1,0 +1,13 @@
+.resetPassword {
+    .resetPasswordContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        max-width: 496px;
+
+
+        .resetPasswordTitle{
+            margin-bottom: 6px;
+        }
+    }
+}

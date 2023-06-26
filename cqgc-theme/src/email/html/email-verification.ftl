@@ -483,7 +483,14 @@
                                                     &nbsp;
                                                 </td>
                                             </tr>
-                                            <tr>
+                                             <tr>
+                                                <td width="600" valign="top" class="fw-100" bgcolor="#ffffff" align="center" style=" mso-table-lspace:0pt; mso-table-rspace:0pt; font-family:Arial, sans-serif; color:#536377;text-align: center;">
+                                                    <p style="font-size: 13px; line-height: 18px; text-align: left; font-family: Arial, sans-serif; color:#536377; padding: 0; margin: 0; font-weight: 400;">
+                                                        ${msg("verificationEmailSignature")?no_esc}
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                             <tr>
                                                 <td style="line-height: 10px; font-size: 10px;">
                                                     &nbsp;
                                                 </td>
@@ -491,8 +498,16 @@
                                             <tr>
                                                 <td width="600" valign="top" class="fw-100" bgcolor="#ffffff" align="center" style=" mso-table-lspace:0pt; mso-table-rspace:0pt; font-family:Arial, sans-serif; color:#536377;text-align: center;">
                                                     <p style="font-size: 13px; line-height: 18px; text-align: left; font-family: Arial, sans-serif; color:#536377; padding: 0; margin: 0; font-weight: 400;">
-                                                        ${msg("verificationEmailSignature")?no_esc}
+                                                        ${msg("verificationEmailContactMessage")?no_esc}<br>
+                                                        ${msg("verificationEmailContactName")?no_esc}<br>
+                                                        ${msg("verificationEmailContactEmailLink")?no_esc}<br>
+                                                        ${msg("verificationEmailContactPhone")?no_esc}<br>
                                                     </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="line-height: 10px; font-size: 10px;">
+                                                    &nbsp;
                                                 </td>
                                             </tr>
                                             <tr>

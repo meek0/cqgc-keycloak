@@ -1,0 +1,1 @@
+Do not remove this file, Keycloakify needs directory login to exist even if it is empty

@@ -29,3 +29,27 @@
         text-align: center;
     }
 }
+
+.expiryErrorContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+    margin-left: 80px;
+    margin-right: 80px;
+    gap: 8px;
+
+    .errorIcon {
+        margin-bottom: 24px;
+    }
+
+    .errorMessage {
+        display: flex;
+        align-items: center;
+        text-align: center;
+
+        a {
+            margin-left: 5px;
+        }
+    }
+}

@@ -8,9 +8,9 @@ on:
 jobs:
   build:
     name: Publish Image
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Push the image on the docker registry
       uses: Ferlab-Ste-Justine/action-push-image@v2
       with:

@@ -12,6 +12,13 @@ RUN cd cqgc-providers/ && mvn clean package -DskipTests
 FROM quay.io/keycloak/keycloak:22.0
 
 ENV KC_DB=postgres
+ENV KC_HEALTH_ENABLED=true
+ENV KC_METRICS_ENABLED=true
+ENV KC_HTTP_ENABLED=true
+ENV KC_CACHE=local
+ENV KC_HOSTNAME_DEBUG=true
+ENV KC_HOSTNAME_STRICT=false
+ENV KC_HOSTNAME_STRICT_HTTPS=false
 
 WORKDIR /opt/keycloak
 

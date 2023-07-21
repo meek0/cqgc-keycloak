@@ -9,7 +9,7 @@ COPY . /app
 RUN cd cqgc-providers/ && mvn clean package -DskipTests
 
 
-FROM quay.io/keycloak/keycloak:21.1.2
+FROM quay.io/keycloak/keycloak:21.1.1
 
 ENV KC_DB=postgres
 ENV KC_HEALTH_ENABLED=true

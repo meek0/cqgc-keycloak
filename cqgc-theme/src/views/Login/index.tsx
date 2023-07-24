@@ -32,7 +32,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: 'log
     classes,
   });
 
-  const { realm, url, locale, message, client } = kcContext;
+  const { realm, url, locale, message } = kcContext;
 
   const { currentLanguageTag, changeLocale, advancedMsg, advancedMsgStr } = i18n;
 
@@ -133,7 +133,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: 'log
                   <Button type="primary" htmlType="submit" disabled={isLoginButtonDisabled}>
                     {advancedMsg('submit')}
                   </Button>
-                  <Link href={client.description}>{advancedMsg('cancel')}</Link>
+                  <Link href={(kcContext.client as any).baseUrl}>{advancedMsg('cancel')}</Link>
                 </Space>
               </Form>
             </div>

@@ -8,6 +8,7 @@ type TInstitution = {
 type TAdditionalData = {
   institutionOptions: TInstitution[];
   redirectUrl: string;
+  emailValidationRegexList: string[];
 };
 
 export type KcContextExtension =
@@ -57,6 +58,7 @@ export const { kcContext } = getKcContext<KcContextExtension>({
           { label: 'Etab C', value: 'C' },
         ],
         redirectUrl: 'http://host.docker.internal:8081/realms/CLIN/account/#/',
+        emailValidationRegexList: ['.med@ssss.gouv.qc.ca', '@ssss.gouv.qc.ca', '@ferlab.bio'],
       },
       message: undefined,
     },

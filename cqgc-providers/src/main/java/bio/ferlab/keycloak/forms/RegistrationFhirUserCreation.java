@@ -3,6 +3,7 @@ package bio.ferlab.keycloak.forms;
 import bio.ferlab.keycloak.fhir.FhirClient;
 import bio.ferlab.keycloak.fhir.OrganizationResource;
 import bio.ferlab.keycloak.helpers.SystemTokenRetriever;
+import org.apache.commons.lang.StringUtils;
 import org.keycloak.Config;
 import org.keycloak.authentication.FormAction;
 import org.keycloak.authentication.FormActionFactory;
@@ -47,6 +48,13 @@ public class RegistrationFhirUserCreation implements FormAction, FormActionFacto
         property.setLabel("FHIR URL");
         property.setType(ProviderConfigProperty.TEXT_TYPE);
         configProperties.add(property);
+
+        property = new ProviderConfigProperty();
+        property.setName("emailValidationRegexList");
+        property.setLabel("Email validation regex list");
+        property.setHelpText("Separated by comma");
+        property.setType(ProviderConfigProperty.MULTIVALUED_STRING_TYPE);
+        configProperties.add(property);
     }
 
     @Override
@@ -79,7 +87,7 @@ public class RegistrationFhirUserCreation implements FormAction, FormActionFacto
         context.getEvent().detail(Details.LAST_NAME, lastName);
 
         try {
-            UserCreationValidator.validate(profile);
+            UserCreationValidator.validate(profile, getEmailValidationRegexList(context));
             String accessToken = tokenRetriever.getAccessToken(context);
             if(fhirClient.doesPractitionerExist(accessToken, getFhirUrl(context), email)) {
                 ValidationException exception = new ValidationException();
@@ -115,6 +123,7 @@ public class RegistrationFhirUserCreation implements FormAction, FormActionFacto
         Map<String, Object> additionalData = new HashMap<>();
         additionalData.put("institutionOptions", institutionOptions);
         additionalData.put("redirectUrl", context.getAuthenticationSession().getRedirectUri());
+        additionalData.put("emailValidationRegexList", getEmailValidationRegexList(context));
 
         form.setAttribute("additionalData", additionalData);
     }
@@ -254,7 +263,10 @@ public class RegistrationFhirUserCreation implements FormAction, FormActionFacto
         return context.getAuthenticatorConfig().getConfig().get("fhirUrl") + "/fhir";
     }
 
-//    private String buildPractitionerRef(String practitionerFhirId) {
-//        return "Practitioner/" + practitionerFhirId;
-//    }
+    private List<String> getEmailValidationRegexList(FormContext context) {
+        if(StringUtils.isNotBlank(context.getAuthenticatorConfig().getConfig().get("emailValidationRegexList"))){
+            return Arrays.asList(context.getAuthenticatorConfig().getConfig().get("emailValidationRegexList").split("##"));
+        }
+        return Collections.EMPTY_LIST;
+    }
 }

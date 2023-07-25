@@ -48,6 +48,10 @@ export default function Register(
 
   const { url, additionalData, message } = kcContext;
 
+  const emailRegexPattern = new RegExp(
+    '[a-z0-9]+((' + additionalData.emailValidationRegexList.join(')|(') + '))',
+  );
+
   const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(false);
 
   const fields = [
@@ -163,7 +167,7 @@ export default function Register(
                 rules={[
                   { required: true, message: advancedMsg('required_field_error') },
                   {
-                    pattern: /[0-9]{5}/,
+                    pattern: /^[0-9]{5}$/,
                     message: advancedMsgStr('license_format_error'),
                   },
                 ]}
@@ -217,7 +221,7 @@ export default function Register(
                 rules={[
                   { required: true, message: advancedMsg('required_field_error') },
                   {
-                    pattern: /[a-z0-9]+\.med@ssss\.gouv\.qc\.ca$/,
+                    pattern: emailRegexPattern,
                     message: advancedMsgStr('email_format_error'),
                   },
                 ]}

@@ -81,13 +81,7 @@ const ResetPassword = (
                 name={FORM_FIELDS.EMAIL}
                 label={advancedMsg('username_label')}
                 required={true}
-                rules={[
-                  { required: true, message: advancedMsg('required_field_error') },
-                  {
-                    pattern: /[a-z0-9]+\.med@ssss\.gouv\.qc\.ca$/,
-                    message: advancedMsgStr('email_format_error'),
-                  },
-                ]}
+                rules={[{ required: true, message: advancedMsg('required_field_error') }]}
               >
                 <Input tabIndex={7} suffix={<MailOutlined />} />
               </Form.Item>

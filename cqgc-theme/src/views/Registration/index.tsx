@@ -272,7 +272,7 @@ export default function Register(
                 <Button type="primary" htmlType="submit" disabled={isLoginButtonDisabled}>
                   {advancedMsg('submit')}
                 </Button>
-                <Button onClick={() => (window.location.href = kcContext.client as any).baseUrl}>
+                <Button onClick={() => (window.location.href = (kcContext.client as any).baseUrl)}>
                   {advancedMsg('cancel')}
                 </Button>
               </Space>

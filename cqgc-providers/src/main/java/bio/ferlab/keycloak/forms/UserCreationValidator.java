@@ -31,7 +31,7 @@ public class UserCreationValidator {
     private static void validateEmail(String email, List<String> emailValidationPatternList) {
         validateNonNull(email, "email");
         for (String pattern : emailValidationPatternList) {
-            String regexFromPattern = "[a-z0-9]+" + pattern + "$";
+            String regexFromPattern = ".+" + pattern + "$";
             Pattern p = Pattern.compile(regexFromPattern);
             Matcher m = p.matcher(email);
             if (m.matches()) {

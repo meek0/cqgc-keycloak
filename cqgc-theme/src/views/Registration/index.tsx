@@ -49,7 +49,7 @@ export default function Register(
   const { url, additionalData, message } = kcContext;
 
   const emailRegexPattern = new RegExp(
-    '[a-z0-9]+((' + additionalData.emailValidationRegexList.join(')|(') + '))',
+    '.+((' + additionalData.emailValidationRegexList.join(')|(') + '))',
   );
 
   const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(false);

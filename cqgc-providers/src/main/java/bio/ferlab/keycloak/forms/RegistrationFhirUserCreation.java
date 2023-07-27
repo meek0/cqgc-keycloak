@@ -24,8 +24,6 @@ import org.keycloak.userprofile.UserProfileContext;
 import org.keycloak.userprofile.UserProfileProvider;
 import org.keycloak.userprofile.ValidationException;
 import org.keycloak.validate.ValidationError;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.core.MultivaluedMap;
 import java.util.*;
@@ -33,8 +31,6 @@ import java.util.stream.Collectors;
 
 public class RegistrationFhirUserCreation implements FormAction, FormActionFactory {
     public static final String PROVIDER_ID = "registration-fhir-user-creation";
-
-    Logger logger = LoggerFactory.getLogger(RegistrationFhirUserCreation.class);
 
     SystemTokenRetriever tokenRetriever = new SystemTokenRetriever();
     FhirClient fhirClient = new FhirClient();
@@ -69,7 +65,6 @@ public class RegistrationFhirUserCreation implements FormAction, FormActionFacto
 
     @Override
     public void validate(ValidationContext context) {
-        logger.info(context.getClass().getName());
         MultivaluedMap<String, String> formData = context.getHttpRequest().getDecodedFormParameters();
         context.getEvent().detail(Details.REGISTER_METHOD, "form");
 

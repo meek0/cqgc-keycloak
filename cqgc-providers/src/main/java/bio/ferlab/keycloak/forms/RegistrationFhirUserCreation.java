@@ -147,7 +147,9 @@ public class RegistrationFhirUserCreation implements FormAction, FormActionFacto
         user = profile.create();
 
         RoleModel rolePractitioner = context.getRealm().getRole("clin_practitioner");
+        RoleModel rolePrescriber = context.getRealm().getRole("clin_prescriber");
         user.grantRole(rolePractitioner);
+        user.grantRole(rolePrescriber);
 
         user.setEnabled(true);
 

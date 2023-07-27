@@ -60,7 +60,7 @@ export default function UpdatePassword(
       updatePassword({
         updatePasswordForm: values,
         url: url.loginAction,
-        redirectUrl: url.loginUrl,
+        redirectUrl: (kcContext.client as any).baseUrl,
       }),
     );
   };

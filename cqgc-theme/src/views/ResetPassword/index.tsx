@@ -90,15 +90,7 @@ const ResetPassword = (
                 <Button type="primary" htmlType="submit" disabled={isLoginButtonDisabled}>
                   {advancedMsg('submit')}
                 </Button>
-                <Button
-                  type="default"
-                  onClick={() =>
-                    (window.location.href = window.location.href.replace(
-                      'reset-credentials',
-                      'authenticate',
-                    ))
-                  }
-                >
+                <Button type="default" onClick={() => (window.location.href = url.loginUrl)}>
                   {advancedMsg('cancel')}
                 </Button>
               </Space>
@@ -106,7 +98,7 @@ const ResetPassword = (
           </div>
         )}
         {!showConfirmationScreen && hasError && (
-          <ErrorContainer advancedMsg={advancedMsgStr} redirectUrl={window.location.href} />
+          <ErrorContainer advancedMsg={advancedMsgStr} redirectUrl={url.loginResetCredentialsUrl} />
         )}
         {showConfirmationScreen && (
           <ResetPasswordConfirmation email={email} advancedMsg={advancedMsgStr} />

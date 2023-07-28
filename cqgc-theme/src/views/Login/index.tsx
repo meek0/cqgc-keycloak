@@ -32,7 +32,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: 'log
     classes,
   });
 
-  const { realm, url, locale, message } = kcContext;
+  const { realm, url, locale, message, client } = kcContext;
 
   const { currentLanguageTag, changeLocale, advancedMsg, advancedMsgStr } = i18n;
 
@@ -109,7 +109,11 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: 'log
                 method="post"
               >
                 <Form.Item
-                  label={advancedMsg('username_label')}
+                  label={
+                    client.clientId === 'clin-prescription-client'
+                      ? advancedMsg('username_label_prescription')
+                      : advancedMsg('username_label')
+                  }
                   required={true}
                   rules={[{ required: true, message: advancedMsg('required_field_error') }]}
                 >
@@ -133,7 +137,12 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: 'log
                   <Button type="primary" htmlType="submit" disabled={isLoginButtonDisabled}>
                     {advancedMsg('submit')}
                   </Button>
-                  <Link href={(kcContext.client as any).baseUrl}>{advancedMsg('cancel')}</Link>
+                  <Button
+                    type="default"
+                    onClick={() => (window.location.href = (kcContext.client as any).baseUrl)}
+                  >
+                    {advancedMsg('cancel')}
+                  </Button>
                 </Space>
               </Form>
             </div>

@@ -30,7 +30,7 @@ const ResetPassword = (
 
   const { kcContext, i18n } = props;
 
-  const { url } = kcContext;
+  const { url, client } = kcContext;
 
   const { advancedMsg, advancedMsgStr } = i18n;
 
@@ -79,7 +79,11 @@ const ResetPassword = (
             >
               <Form.Item
                 name={FORM_FIELDS.EMAIL}
-                label={advancedMsg('username_label')}
+                label={
+                  client.clientId === 'clin-prescription-client'
+                    ? advancedMsg('username_label_prescription')
+                    : advancedMsg('username_label')
+                }
                 required={true}
                 rules={[{ required: true, message: advancedMsg('required_field_error') }]}
               >
@@ -90,7 +94,10 @@ const ResetPassword = (
                 <Button type="primary" htmlType="submit" disabled={isLoginButtonDisabled}>
                   {advancedMsg('submit')}
                 </Button>
-                <Button type="default" onClick={() => (window.location.href = url.loginUrl)}>
+                <Button
+                  type="default"
+                  onClick={() => (window.location.href = (client as any).baseUrl)}
+                >
                   {advancedMsg('cancel')}
                 </Button>
               </Space>

@@ -70,7 +70,10 @@ const Error = (props: PageProps<Extract<KcContext, { pageId: 'error.ftl' }>, I18
     <SideImageLayout sideImgSrc={MainSideImage} className={styles.errorPage}>
       <div>
         {isTokenExpired && (
-          <ExpiryErrorContainer redirectUrl={url.loginUrl} advancedMsg={advancedMsgStr} />
+          <ExpiryErrorContainer
+            redirectUrl={(url as any).loginResetCredentialsUrl}
+            advancedMsg={advancedMsgStr}
+          />
         )}
         {!isTokenExpired && (
           <ErrorContainer redirectUrl={url.loginUrl} advancedMsg={advancedMsgStr} />

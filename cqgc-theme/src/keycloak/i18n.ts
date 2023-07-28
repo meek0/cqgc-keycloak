@@ -9,7 +9,8 @@ export const { useI18n } = createUseI18n({
   en: {
     /* spell-checker: disable */
     login_title: 'Prescriptions and Analyzes',
-    username_label: 'Email (.med@ssss.gouv.qc.ca)',
+    username_label: 'Email (@ssss.gouv.qc.ca)',
+    username_label_prescription: 'Email (.med@ssss.gouv.qc.ca)',
     password_label: 'Password',
     forgot_password: 'Forgot password',
     submit: 'Submit',
@@ -69,7 +70,8 @@ export const { useI18n } = createUseI18n({
   fr: {
     /* spell-checker: disable */
     login_title: 'Prescriptions et analyses',
-    username_label: 'Courriel (.med@ssss.gouv.qc.ca)',
+    username_label: 'Courriel (@ssss.gouv.qc.ca)',
+    username_label_prescription: 'Courriel (.med@ssss.gouv.qc.ca)',
     password_label: 'Mot de passe',
     forgot_password: 'Mot de passe oublié ?',
     submit: 'Soumettre',

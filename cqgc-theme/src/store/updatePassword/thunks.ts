@@ -24,10 +24,6 @@ const updatePassword = createAsyncThunk<
         'content-type': 'application/x-www-form-urlencoded',
         'Upgrade-Insecure-Requests': '1',
         'Cache-Control': 'max-age=0',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers':
-          'Origin, Content-Type, X-Auth-Token, Authorization, Accept,charset,boundary,Content-Length',
       },
       data: qs.stringify(args.updatePasswordForm),
     });
@@ -46,8 +42,11 @@ const updatePassword = createAsyncThunk<
     }
   } catch (err: unknown) {
     if (api.isAxiosError(err)) {
-      if (err.response && err.response.status === 401) {
-        window.location.href = err.request.responseURL;
+      if (
+        (err.code && err.code === 'ERR_NETWORK') ||
+        (err.response && err.response.status === 401)
+      ) {
+        window.location.href = args.redirectUrl;
         return;
       }
     }

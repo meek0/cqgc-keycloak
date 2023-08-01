@@ -24,15 +24,12 @@ import org.keycloak.userprofile.UserProfileContext;
 import org.keycloak.userprofile.UserProfileProvider;
 import org.keycloak.userprofile.ValidationException;
 import org.keycloak.validate.ValidationError;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.core.MultivaluedMap;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class RegistrationFhirUserCreation implements FormAction, FormActionFactory {
-    public Logger logger = LoggerFactory.getLogger(RegistrationFhirUserCreation.class);
     public static final String PROVIDER_ID = "registration-fhir-user-creation";
 
     SystemTokenRetriever tokenRetriever = new SystemTokenRetriever();
@@ -175,25 +172,17 @@ public class RegistrationFhirUserCreation implements FormAction, FormActionFacto
     }
 
     private void joinGroupsForEachOrganization(FormContext context, UserModel user, String organizationsAsString) {
-        logger.info("organizationsAsString: " + organizationsAsString);
         String[] organizations = organizationsAsString.split(",");
-        logger.info("Existing groups: ");
-        context.getRealm().getGroupsStream().forEach(g -> logger.info(g.getName()));
-        logger.info("=================");
         for (String org : organizations) {
             Optional<GroupModel> group = context.getRealm().getGroupsStream().filter(g -> g.getName().equals(org)).findFirst();
             if (group.isPresent()) {
-                logger.info(group.get().getName() + " is present");
                 user.joinGroup(group.get());
             } else {
-                logger.info(org + " is missing");
                 GroupModel newGroup = context.getRealm().createGroup(org);
                 newGroup.setAttribute("fhir_organization_id", Collections.singletonList(org));
                 user.joinGroup(newGroup);
             }
         }
-        logger.info("user groups: " + user.getGroupsStream().map(g -> g.getName()).collect(Collectors.joining(",", "[", "]")));
-        logger.info("=================");
     }
 
     @Override

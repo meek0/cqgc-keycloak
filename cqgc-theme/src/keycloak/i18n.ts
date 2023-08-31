@@ -8,14 +8,15 @@ export const { useI18n } = createUseI18n({
   // https://user-images.githubusercontent.com/6702424/182050652-522b6fe6-8ee5-49df-aca3-dba2d33f24a5.png
   en: {
     /* spell-checker: disable */
-    login_title: 'Prescriptions and Analyzes',
+    login_title: 'Analyses and Diagnostics',
+    login_title_prescription: 'Prescriptions and Requisitions',
     username_label: 'Email (@ssss.gouv.qc.ca)',
     username_label_prescription: 'Email (.med@ssss.gouv.qc.ca)',
     password_label: 'Password',
-    forgot_password: 'Forgot password',
+    forgot_password: 'Forgot password?',
     submit: 'Submit',
     cancel: 'Cancel',
-    login_failed_title: 'Login Failed',
+    login_failed_title: 'Login failed',
     login_failed_message: 'Incorrect username or password. Please try again.',
     required_field_error: 'This field is required',
     email_format_error: 'Email is not in a valid format',
@@ -69,7 +70,8 @@ export const { useI18n } = createUseI18n({
   },
   fr: {
     /* spell-checker: disable */
-    login_title: 'Prescriptions et analyses',
+    login_title: 'Analyses et diagnostics',
+    login_title_prescription: 'Prescriptions et requêtes',
     username_label: 'Courriel (@ssss.gouv.qc.ca)',
     username_label_prescription: 'Courriel (.med@ssss.gouv.qc.ca)',
     password_label: 'Mot de passe',

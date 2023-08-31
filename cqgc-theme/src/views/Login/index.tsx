@@ -87,7 +87,9 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: 'log
                 <CQGCLogo />
                 <Divider />
                 <Title level={3} className={styles.loginTitle}>
-                  {advancedMsg('login_title')}
+                  {client.clientId === 'clin-prescription-client'
+                    ? advancedMsg('login_title_prescription')
+                    : advancedMsg('login_title')}
                 </Title>
               </div>
               {isInvalidCredentials && (

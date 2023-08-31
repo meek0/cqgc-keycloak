@@ -27,7 +27,7 @@ export type KcContextExtension =
 // - You want to add support for extra pages that are not yey featured by default, see: https://docs.keycloakify.dev/contributing#adding-support-for-a-new-page
 export const { kcContext } = getKcContext<KcContextExtension>({
   // Uncomment to test the login page for development.
-  // mockPageId: "login.ftl",
+  // mockPageId: 'login.ftl',
   // mockPageId: 'register.ftl',
   // mockPageId: 'login-verify-email.ftl',
   // mockPageId: 'error.ftl',

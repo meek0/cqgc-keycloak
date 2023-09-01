@@ -79,6 +79,7 @@ export default function UpdatePassword(
               onFinish={onFinish}
               form={form}
               fields={fields}
+              validateTrigger={'onBlur'}
             >
               <Form.Item
                 name={FORM_FIELDS.PASSWORD}

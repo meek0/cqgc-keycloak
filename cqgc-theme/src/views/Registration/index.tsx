@@ -122,6 +122,7 @@ export default function Register(
               onFinish={onFinish}
               form={form}
               fields={fields}
+              validateTrigger={'onBlur'}
             >
               <Form.Item
                 name={FORM_FIELDS.TITLE}

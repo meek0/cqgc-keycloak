@@ -53,14 +53,14 @@ export const { useI18n } = createUseI18n({
     email_already_exists_login: 'log in',
     email_already_exists_reset_password: 'reset your password',
     email_already_exists_contact_text: 'If you continue to experience issues, please contact us:',
-    reset_password_title: 'Forgot Password ?',
+    reset_password_title: 'Forgot password?',
     reset_password_text:
       'Enter the email address you use to sign in, and we will send you a link to reset your password.',
-    reset_password_confirmation_title: 'Password Reset Email Sent',
+    reset_password_confirmation_title: 'Password reset email sent',
     reset_password_confirmation_message_1: 'We have sent you a link to reset your password at:',
     reset_password_confirmation_message_2:
       'If you do not receive email, check your spam folder or contact us at:',
-    update_password_title: 'Create a New Password',
+    update_password_title: 'Create a new password',
     new_password_label: 'New password',
     expiry_error_title: 'Password reset link expired',
     expiry_error_message_1: 'The reset password link has expired.',
@@ -124,7 +124,7 @@ export const { useI18n } = createUseI18n({
     reset_password_confirmation_message_1:
       'Nous vous avons envoyé un lien pour réinitialiser votre mot de passe à l’adresse :',
     reset_password_confirmation_message_2:
-      'Si vous ne recevez pas courriel, vérifiez votre dossier de courrier indésirable ou contactez-nous au :',
+      'Si vous ne recevez pas de courriel, vérifiez votre dossier de courrier indésirable ou contactez-nous au :',
     update_password_title: 'Créer un nouveau mot de passe',
     new_password_label: 'Nouveau mot de passe',
     expiry_error_title: 'Lien de réinitialisation expiré',

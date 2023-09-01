@@ -205,8 +205,6 @@
     </style>
 </head>
 <body bgcolor="#FFFFFF">
-<!-- OVERVIEW text. Invisible -->
-<div style="display:none;font-size:2px;color:#ffffff;line-height:2px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;" >Client Express Order</div>
 <!-- Insert &zwnj;&nbsp; hack after hidden preview text -->
 <div style="display: none; max-height: 0px; overflow: hidden;">&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;</div>
 <div style="display: none; max-height: 0px; overflow: hidden;">&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;</div>

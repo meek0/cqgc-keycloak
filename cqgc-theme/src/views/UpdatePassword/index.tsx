@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Form, Input, Space } from 'antd';
-import Text from 'antd/lib/typography/Text';
 import Title from 'antd/lib/typography/Title';
 import type { I18n } from 'keycloak/i18n';
 import type { KcContext } from 'keycloak/KcContext';
@@ -92,10 +91,10 @@ export default function UpdatePassword(
                     message: advancedMsgStr('password_format_error'),
                   },
                 ]}
+                help={advancedMsg('password_format_hint')}
               >
                 <div>
-                  <Input.Password tabIndex={8} />
-                  <Text type="secondary">{advancedMsg('password_format_hint')}</Text>
+                  <Input.Password tabIndex={1} />
                 </div>
               </Form.Item>
 
@@ -117,7 +116,7 @@ export default function UpdatePassword(
                   }),
                 ]}
               >
-                <Input.Password tabIndex={9} />
+                <Input.Password tabIndex={2} />
               </Form.Item>
 
               <Space size={'middle'}>

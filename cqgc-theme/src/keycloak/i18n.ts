@@ -34,8 +34,6 @@ export const { useI18n } = createUseI18n({
     is_resident_doctor_label: 'I am a resident doctor',
     confirm_password_label: 'Password confirmation',
     password_format_hint: 'Minimum: 8 characters, 1 digit, 1 capital letter, 1 special character',
-    password_format_error:
-      'Password must be composed of at least 8 characters, 1 capital letter, 1 digit, 1 special character.',
     password_verification_error: 'Password does not match.',
     verify_email_title: 'A Confirmation Email Has Been Sent to You',
     verify_email_message:
@@ -97,8 +95,6 @@ export const { useI18n } = createUseI18n({
     is_resident_doctor_label: 'Je suis un médecin résident',
     confirm_password_label: 'Confirmation du mot de passe',
     password_format_hint: 'Minimum : 8 caractères, 1 majuscule, 1 chiffre, 1 caractère spécial',
-    password_format_error:
-      'Le mot de passe doit être composé d’au moins 8 caractères, 1 majuscule, 1 chiffre, 1 caractère spécial.',
     password_verification_error: 'Le mot de passe ne correspond pas.',
     verify_email_title: 'Un courriel de confirmation vous a été envoyé',
     verify_email_message:

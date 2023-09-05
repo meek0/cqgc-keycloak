@@ -88,7 +88,6 @@ export default function UpdatePassword(
                   { required: true, message: advancedMsg('required_field_error') },
                   {
                     pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                    message: advancedMsgStr('password_format_error'),
                   },
                 ]}
                 help={advancedMsg('password_format_hint')}

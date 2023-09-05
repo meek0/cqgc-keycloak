@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { MailOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Radio, Select, Space } from 'antd';
-import Text from 'antd/lib/typography/Text';
 import Title from 'antd/lib/typography/Title';
 import type { I18n } from 'keycloak/i18n';
 import type { KcContext } from 'keycloak/KcContext';
@@ -238,13 +237,12 @@ export default function Register(
                   { required: true, message: advancedMsg('required_field_error') },
                   {
                     pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                    message: advancedMsgStr('password_format_error'),
                   },
                 ]}
+                help={advancedMsg('password_format_hint')}
               >
                 <div>
                   <Input.Password tabIndex={8} />
-                  <Text type="secondary">{advancedMsg('password_format_hint')}</Text>
                 </div>
               </Form.Item>
 

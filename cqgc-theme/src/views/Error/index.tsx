@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
 import { Typography } from 'antd';
 import Link from 'antd/lib/typography/Link';
 import type { I18n } from 'keycloak/i18n';
@@ -60,7 +62,7 @@ const ExpiryErrorContainer = ({
 const Error = (props: PageProps<Extract<KcContext, { pageId: 'error.ftl' }>, I18n>) => {
   const { kcContext, i18n } = props;
 
-  const { message, url } = kcContext;
+  const { message, url, client } = kcContext;
 
   const { advancedMsgStr } = i18n;
 
@@ -71,7 +73,7 @@ const Error = (props: PageProps<Extract<KcContext, { pageId: 'error.ftl' }>, I18
       <div>
         {isTokenExpired && (
           <ExpiryErrorContainer
-            redirectUrl={(url as any).loginResetCredentialsUrl}
+            redirectUrl={(client as any).baseUrl}
             advancedMsg={advancedMsgStr}
           />
         )}

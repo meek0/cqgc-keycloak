@@ -15,4 +15,5 @@ export type TRegisterForm = {
   email?: string;
   password?: string;
   'password-confirm'?: string;
+  username?: string;
 };

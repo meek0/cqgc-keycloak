@@ -101,7 +101,7 @@ export default function Register(
 
     dispatch(
       register({
-        registerForm: values,
+        registerForm: { ...values, username: values.email },
         url: url.registrationAction,
       }),
     );

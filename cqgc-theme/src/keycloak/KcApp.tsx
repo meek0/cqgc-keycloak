@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react';
 import Fallback from 'keycloakify/login';
-import { Error } from 'views/Error';
+import { Error, LoginExpiryError } from 'views/Error';
 
 import { useI18n } from './i18n';
 import type { KcContext } from './KcContext';
@@ -65,6 +65,14 @@ export default function App(props: { kcContext: KcContext }) {
           case 'error.ftl':
             return (
               <Error {...{ kcContext, i18n }} Template={DefaultTemplate} doUseDefaultCss={true} />
+            );
+          case 'login-page-expired.ftl':
+            return (
+              <LoginExpiryError
+                {...{ kcContext, i18n }}
+                Template={DefaultTemplate}
+                doUseDefaultCss={true}
+              />
             );
           default:
             return (

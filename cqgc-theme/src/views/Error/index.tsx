@@ -85,4 +85,22 @@ const Error = (props: PageProps<Extract<KcContext, { pageId: 'error.ftl' }>, I18
   );
 };
 
-export { Error, ErrorContainer, ExpiryErrorContainer };
+const LoginExpiryError = (
+  props: PageProps<Extract<KcContext, { pageId: 'login-page-expired.ftl' }>, I18n>,
+) => {
+  const { kcContext, i18n } = props;
+
+  const { url } = kcContext;
+
+  const { advancedMsgStr } = i18n;
+
+  return (
+    <SideImageLayout sideImgSrc={MainSideImage} className={styles.errorPage}>
+      <div>
+        <ErrorContainer redirectUrl={url.loginUrl} advancedMsg={advancedMsgStr} />
+      </div>
+    </SideImageLayout>
+  );
+};
+
+export { Error, ErrorContainer, ExpiryErrorContainer, LoginExpiryError };

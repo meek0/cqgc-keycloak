@@ -31,6 +31,7 @@ export const { kcContext } = getKcContext<KcContextExtension>({
   // mockPageId: 'register.ftl',
   // mockPageId: 'login-verify-email.ftl',
   // mockPageId: 'error.ftl',
+  // mockPageId: 'info.ftl',
   // mockPageId: 'login-reset-password.ftl',
   // mockPageId: 'login-update-password.ftl',
   mockData: [
@@ -84,6 +85,12 @@ export const { kcContext } = getKcContext<KcContextExtension>({
         currentLanguageTag: 'en',
       },
       message: undefined,
+    },
+    {
+      pageId: 'info.ftl',
+      client: {
+        baseUrl: 'https://prescription.qa.cqgc.hsj.rtss.qc.ca/',
+      },
     },
   ],
 });

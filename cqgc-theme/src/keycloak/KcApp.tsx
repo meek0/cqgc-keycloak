@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import Fallback from 'keycloakify/login';
 import { Error, LoginExpiryError } from 'views/Error';
+import Info from 'views/Info';
 
 import { useI18n } from './i18n';
 import type { KcContext } from './KcContext';
@@ -73,6 +74,10 @@ export default function App(props: { kcContext: KcContext }) {
                 Template={DefaultTemplate}
                 doUseDefaultCss={true}
               />
+            );
+          case 'info.ftl':
+            return (
+              <Info {...{ kcContext, i18n }} Template={DefaultTemplate} doUseDefaultCss={true} />
             );
           default:
             return (

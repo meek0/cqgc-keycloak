@@ -1,3 +1,4 @@
+import { Spin } from 'antd';
 import type { I18n } from 'keycloak/i18n';
 import { KcContext } from 'keycloak/KcContext';
 import type { PageProps } from 'keycloakify/login/pages/PageProps';
@@ -14,7 +15,7 @@ const Info = (props: PageProps<Extract<KcContext, { pageId: 'info.ftl' }>, I18n>
 
   return (
     <SideImageLayout sideImgSrc={MainSideImage}>
-      <div>Redirect</div>
+      <Spin />
     </SideImageLayout>
   );
 };

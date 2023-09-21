@@ -3,13 +3,13 @@ WORKDIR /app
 COPY . /app
 RUN cd cqgc-theme/ && npm install && npm run keycloak
 
-FROM maven:3-adoptopenjdk-11 as builder-providers
+FROM maven:3-adoptopenjdk-16 as builder-providers
 WORKDIR /app
 COPY . /app
 RUN cd cqgc-providers/ && mvn clean package -DskipTests
 
 
-FROM quay.io/keycloak/keycloak:21.1.1
+FROM quay.io/keycloak/keycloak:22.0
 
 ENV KC_DB=postgres
 ENV KC_HEALTH_ENABLED=true

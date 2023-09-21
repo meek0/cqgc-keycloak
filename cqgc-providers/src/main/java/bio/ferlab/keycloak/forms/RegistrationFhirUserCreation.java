@@ -3,7 +3,8 @@ package bio.ferlab.keycloak.forms;
 import bio.ferlab.keycloak.fhir.FhirClient;
 import bio.ferlab.keycloak.fhir.OrganizationResource;
 import bio.ferlab.keycloak.helpers.SystemTokenRetriever;
-import org.apache.commons.lang.StringUtils;
+import jakarta.ws.rs.core.MultivaluedMap;
+import org.apache.commons.lang3.StringUtils;
 import org.keycloak.Config;
 import org.keycloak.authentication.FormAction;
 import org.keycloak.authentication.FormActionFactory;
@@ -25,7 +26,6 @@ import org.keycloak.userprofile.UserProfileProvider;
 import org.keycloak.userprofile.ValidationException;
 import org.keycloak.validate.ValidationError;
 
-import javax.ws.rs.core.MultivaluedMap;
 import java.util.*;
 import java.util.stream.Collectors;
 

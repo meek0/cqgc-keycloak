@@ -14,7 +14,7 @@ RUN curl -L -o jgroups-kubernetes-$JGROUPS_KUBERNETES_VERSION.jar \
   https://repo1.maven.org/maven2/org/jgroups/kubernetes/jgroups-kubernetes/$JGROUPS_KUBERNETES_VERSION/jgroups-kubernetes-$JGROUPS_KUBERNETES_VERSION.jar
 
 
-FROM quay.io/keycloak/keycloak:22.0
+FROM quay.io/keycloak/keycloak:21.1.1
 
 ENV KC_DB=postgres
 ENV KC_HEALTH_ENABLED=true

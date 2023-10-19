@@ -3,7 +3,7 @@ package bio.ferlab.keycloak.forms;
 import bio.ferlab.keycloak.fhir.FhirClient;
 import bio.ferlab.keycloak.fhir.OrganizationResource;
 import bio.ferlab.keycloak.helpers.SystemTokenRetriever;
-import jakarta.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.MultivaluedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.keycloak.Config;
 import org.keycloak.authentication.FormAction;

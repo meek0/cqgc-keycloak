@@ -32,6 +32,9 @@ enum FORM_FIELDS {
   PASSWORD_CONFIRM = 'password-confirm',
 }
 
+const NAME_REGEX =
+  /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u;
+
 export default function Register(
   props: PageProps<Extract<KcContext, { pageId: 'register.ftl' }>, I18n>,
 ) {
@@ -50,6 +53,9 @@ export default function Register(
   const emailRegexPattern = new RegExp(
     '.+((' + additionalData.emailValidationRegexList.join(')|(') + '))',
   );
+
+  // Add an empty title to prevent tooltip on hover
+  const institions = additionalData.institutionOptions.map((i) => ({ ...i, title: '' }));
 
   const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(false);
 
@@ -146,7 +152,10 @@ export default function Register(
                 name={FORM_FIELDS.FIRSTNAME}
                 label={advancedMsg('firstname_label')}
                 required={true}
-                rules={[{ required: true, message: advancedMsg('required_field_error') }]}
+                rules={[
+                  { required: true, message: advancedMsg('required_field_error') },
+                  { pattern: NAME_REGEX, message: advancedMsg('name_format_error') },
+                ]}
               >
                 <Input tabIndex={3} />
               </Form.Item>
@@ -155,7 +164,10 @@ export default function Register(
                 name={FORM_FIELDS.LASTNAME}
                 label={advancedMsg('lastname_label')}
                 required={true}
-                rules={[{ required: true, message: advancedMsg('required_field_error') }]}
+                rules={[
+                  { required: true, message: advancedMsg('required_field_error') },
+                  { pattern: NAME_REGEX, message: advancedMsg('name_format_error') },
+                ]}
               >
                 <Input tabIndex={4} />
               </Form.Item>
@@ -202,7 +214,7 @@ export default function Register(
                 required={true}
                 rules={[{ required: true, message: advancedMsg('required_field_error') }]}
               >
-                <Select tabIndex={5} mode="multiple" options={additionalData.institutionOptions} />
+                <Select tabIndex={5} mode="multiple" options={institions} />
               </Form.Item>
 
               <Form.Item
@@ -216,7 +228,7 @@ export default function Register(
 
               <Form.Item
                 name={FORM_FIELDS.EMAIL}
-                label={advancedMsg('username_label')}
+                label={advancedMsg('email_label')}
                 required={true}
                 rules={[
                   { required: true, message: advancedMsg('required_field_error') },

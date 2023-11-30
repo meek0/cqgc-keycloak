@@ -26804,6 +26804,14 @@ div.ant-typography-edit-content.ant-typography-rtl {
 .ant-select-status-error.ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer) .ant-select-selector {
   background-color: #fef4f4;
 }
+.ant-select-multiple .ant-select-selection-item {
+  background: #006aa3;
+  color: #ffffff;
+  border: none;
+}
+.ant-select-multiple .ant-select-selection-item-remove {
+  color: #ffffff;
+}
 body {
   color: #364a63;
 }

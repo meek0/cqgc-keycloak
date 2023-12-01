@@ -32,8 +32,9 @@ enum FORM_FIELDS {
   PASSWORD_CONFIRM = 'password-confirm',
 }
 
-const NAME_REGEX =
-  /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u;
+const specialCharactersRegex = /[!@#$%^&*()_+{}[\]:;<>?~\\|]/;
+
+const hasSpecialCharacters = (inputString: string) => specialCharactersRegex.test(inputString);
 
 export default function Register(
   props: PageProps<Extract<KcContext, { pageId: 'register.ftl' }>, I18n>,
@@ -154,7 +155,15 @@ export default function Register(
                 required={true}
                 rules={[
                   { required: true, message: advancedMsg('required_field_error') },
-                  { pattern: NAME_REGEX, message: advancedMsg('name_format_error') },
+                  {
+                    validator: (_, value) => {
+                      if (hasSpecialCharacters(value)) {
+                        return Promise.reject(advancedMsgStr('name_format_error'));
+                      }
+
+                      return Promise.resolve();
+                    },
+                  },
                 ]}
               >
                 <Input tabIndex={3} />
@@ -166,7 +175,15 @@ export default function Register(
                 required={true}
                 rules={[
                   { required: true, message: advancedMsg('required_field_error') },
-                  { pattern: NAME_REGEX, message: advancedMsg('name_format_error') },
+                  {
+                    validator: (_, value) => {
+                      if (hasSpecialCharacters(value)) {
+                        return Promise.reject(advancedMsgStr('name_format_error'));
+                      }
+
+                      return Promise.resolve();
+                    },
+                  },
                 ]}
               >
                 <Input tabIndex={4} />

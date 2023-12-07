@@ -155,6 +155,7 @@ export default function Register(
                 required={true}
                 rules={[
                   { required: true, message: advancedMsg('required_field_error') },
+                  { min: 2, message: advancedMsgStr('name_min_error') },
                   {
                     validator: (_, value) => {
                       if (hasSpecialCharacters(value)) {
@@ -175,6 +176,7 @@ export default function Register(
                 required={true}
                 rules={[
                   { required: true, message: advancedMsg('required_field_error') },
+                  { min: 2, message: advancedMsgStr('name_min_error') },
                   {
                     validator: (_, value) => {
                       if (hasSpecialCharacters(value)) {

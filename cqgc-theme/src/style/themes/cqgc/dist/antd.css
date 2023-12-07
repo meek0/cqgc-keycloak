@@ -26811,6 +26811,10 @@ div.ant-typography-edit-content.ant-typography-rtl {
 }
 .ant-select-multiple .ant-select-selection-item-remove {
   color: #ffffff;
+  font-size: 12px;
+}
+.ant-select {
+  font-size: 12px;
 }
 body {
   color: #364a63;

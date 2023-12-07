@@ -35,7 +35,7 @@ export const { useI18n } = createUseI18n({
     institution_label: 'Prescribing institution:',
     is_resident_doctor_label: 'I am a resident:',
     email_label: 'Email:',
-    confirm_password_label: 'Password confirmation',
+    confirm_password_label: 'Password confirmation:',
     password_format_hint: 'Minimum: 8 characters, 1 digit, 1 capital letter, 1 special character',
     password_verification_error: 'Password does not match.',
     verify_email_title: 'A confirmation email has been sent to you.',

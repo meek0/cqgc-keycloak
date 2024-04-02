@@ -60,7 +60,8 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: 'log
         {!isTokenExpired && (
           <div className={styles.loginContainer}>
             <div className={styles.switchLang}>
-              {realm.internationalizationEnabled && client.clientId !== 'clin-prescription-client' &&
+              {realm.internationalizationEnabled &&
+                client.clientId !== 'clin-prescription-client' &&
                 (assert(locale !== undefined), true) &&
                 locale.supported.length > 1 && (
                   <div id="kc-locale-wrapper" className={getClassName('kcLocaleWrapperClass')}>

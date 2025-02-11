@@ -36,6 +36,7 @@ const ResetPassword = (
 
   const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(pending);
   const [email, setEmail] = useState('');
+  const [resetPasswordDispatched, setResetPasswordDispatched] = useState(false);
 
   const dispatch = useDispatch();
   const [form] = Form.useForm();
@@ -51,12 +52,16 @@ const ResetPassword = (
     setIsLoginButtonDisabled(true);
     setEmail(values.username || '');
 
+    if (resetPasswordDispatched) return;
+
     dispatch(
       resetPassword({
         resetPasswordForm: values,
         url: url.loginAction,
       }),
     );
+
+    setResetPasswordDispatched(true);
   };
 
   return (

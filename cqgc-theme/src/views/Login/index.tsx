@@ -1,9 +1,10 @@
 // ejected using 'npx eject-keycloak-page'
 import { useState } from 'react';
 import { MailOutlined, WarningOutlined } from '@ant-design/icons';
-import { Alert, Button, Form, Input, Space } from 'antd';
+import { Alert, Button, Form, Input, Space, Typography } from 'antd';
 import Link from 'antd/lib/typography/Link';
 import Title from 'antd/lib/typography/Title';
+import cx from 'classnames';
 import type { I18n } from 'keycloak/i18n';
 import type { KcContext } from 'keycloak/KcContext';
 import { useGetClassName } from 'keycloakify/login/lib/useGetClassName';
@@ -14,6 +15,7 @@ import { ExpiryErrorContainer } from 'views/Error';
 
 import CQGCLogo from 'assets/CQGCLogo';
 import Divider from 'assets/Divider';
+import MicrosoftIcon from 'assets/MicrosoftIcon';
 import MainSideImage from 'assets/side-img-svg.svg';
 
 import styles from './index.module.scss';
@@ -24,6 +26,8 @@ const invalidCredentialsMessages = [
   "Nom d'utilisateur ou mot de passe invalide.",
 ];
 
+const { Text } = Typography;
+
 export default function Login(props: PageProps<Extract<KcContext, { pageId: 'login.ftl' }>, I18n>) {
   const { kcContext, i18n, doUseDefaultCss, classes } = props;
 
@@ -32,7 +36,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: 'log
     classes,
   });
 
-  const { realm, url, locale, message, client } = kcContext;
+  const { realm, url, locale, message, client, social } = kcContext;
 
   const { currentLanguageTag, changeLocale, advancedMsg, advancedMsgStr } = i18n;
 
@@ -53,6 +57,12 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: 'log
 
     formElement.submit();
   };
+
+  const socialImageMapping: any = {
+    microsoft: <MicrosoftIcon />,
+  };
+
+  const socialProviders = social.providers || [];
 
   return (
     <SideImageLayout sideImgSrc={MainSideImage} className={styles.loginPage}>
@@ -101,6 +111,27 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: 'log
                   showIcon
                   icon={<WarningOutlined />}
                 />
+              )}
+              {realm.password && (
+                <Space
+                  id="kc-social-providers"
+                  className={styles.socialProviders}
+                  direction="horizontal"
+                  size={16}
+                >
+                  {socialProviders.map((p) => (
+                    <a
+                      href={p.loginUrl}
+                      id={`social-${p.alias}`}
+                      className={cx(styles.socialLoginBtn, p.providerId)}
+                      key={p.providerId}
+                    >
+                      <div className={styles.socialIcon}>{socialImageMapping[p.alias]}</div>
+                      <span className="sr-only">{advancedMsg('login_title')}</span>
+                      <Text>{p.displayName}</Text>
+                    </a>
+                  ))}
+                </Space>
               )}
               <Form
                 className={styles.loginForm}

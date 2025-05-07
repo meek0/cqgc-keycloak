@@ -48,9 +48,9 @@ export const { kcContext } = getKcContext<KcContextExtension>({
       social: {
         providers: [
           {
-            providerId: 'microsoft',
-            alias: 'microsoft',
-            displayName: 'Microsoft',
+            providerId: 'msss',
+            alias: 'msss',
+            displayName: 'ssss.gouv.qc.ca',
             loginUrl: 'http://localhost:8080/realms/master/broker/microsoft/endpoint',
           },
         ],

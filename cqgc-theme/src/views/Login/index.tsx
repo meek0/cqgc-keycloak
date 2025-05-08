@@ -62,7 +62,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: 'log
   };
 
   const socialImageMapping: any = {
-    msss: <MSSSIcon />,
+    microsoft: <MSSSIcon />,
     cqgc: <CQGCIcon />,
   };
 

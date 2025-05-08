@@ -45,6 +45,16 @@ export const { kcContext } = getKcContext<KcContextExtension>({
       //"message": undefined
       //Uncomment the following line for showing an Error message
       //message: { type: "error", summary: "This is an error" }
+      social: {
+        providers: [
+          {
+            providerId: 'microsoft',
+            alias: 'microsoft',
+            displayName: 'ssss.gouv.qc.ca',
+          },
+        ],
+      },
+      registrationDisabled: true,
     },
     {
       pageId: 'register.ftl',

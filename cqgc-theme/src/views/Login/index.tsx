@@ -1,9 +1,11 @@
+/* eslint-disable complexity */
 // ejected using 'npx eject-keycloak-page'
 import { useState } from 'react';
 import { MailOutlined, WarningOutlined } from '@ant-design/icons';
-import { Alert, Button, Form, Input, Space } from 'antd';
+import { Alert, Button, Form, Input, Space, Typography } from 'antd';
 import Link from 'antd/lib/typography/Link';
 import Title from 'antd/lib/typography/Title';
+import cx from 'classnames';
 import type { I18n } from 'keycloak/i18n';
 import type { KcContext } from 'keycloak/KcContext';
 import { useGetClassName } from 'keycloakify/login/lib/useGetClassName';
@@ -12,8 +14,10 @@ import { assert } from 'keycloakify/tools/assert';
 import SideImageLayout from 'layout/SideImage';
 import { ExpiryErrorContainer } from 'views/Error';
 
+import CQGCIcon from 'assets/CGQCIcon';
 import CQGCLogo from 'assets/CQGCLogo';
 import Divider from 'assets/Divider';
+import MSSSIcon from 'assets/MSSSIcon';
 import MainSideImage from 'assets/side-img-svg.svg';
 
 import styles from './index.module.scss';
@@ -24,6 +28,8 @@ const invalidCredentialsMessages = [
   "Nom d'utilisateur ou mot de passe invalide.",
 ];
 
+const { Text } = Typography;
+
 export default function Login(props: PageProps<Extract<KcContext, { pageId: 'login.ftl' }>, I18n>) {
   const { kcContext, i18n, doUseDefaultCss, classes } = props;
 
@@ -32,11 +38,12 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: 'log
     classes,
   });
 
-  const { realm, url, locale, message, client } = kcContext;
+  const { realm, url, locale, message, client, social } = kcContext;
 
   const { currentLanguageTag, changeLocale, advancedMsg, advancedMsgStr } = i18n;
 
   const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(false);
+  const [showLoginForm, toggleShowLoginForm] = useState(false);
 
   const isTokenExpired = message
     ? expiryMessages.filter((m) => message.summary.includes(m)).length > 0
@@ -53,6 +60,13 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: 'log
 
     formElement.submit();
   };
+
+  const socialImageMapping: any = {
+    microsoft: <MSSSIcon />,
+    cqgc: <CQGCIcon />,
+  };
+
+  const socialProviders = social.providers || [];
 
   return (
     <SideImageLayout sideImgSrc={MainSideImage} className={styles.loginPage}>
@@ -93,7 +107,52 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: 'log
                     : advancedMsg('login_title')}
                 </Title>
               </div>
-              {isInvalidCredentials && (
+              {!showLoginForm && (
+                <div className={styles.loginFormContent}>
+                  <Title level={4} className={styles.loginOptions}>
+                    {advancedMsg('login_options')}
+                  </Title>
+                  <div
+                    id="kc-form"
+                    className={cx(realm.password && getClassName('kcLocaleWrapperClass'))}
+                  >
+                    {realm.password && (
+                      <Space
+                        id="kc-social-providers"
+                        className={styles.socialProviders}
+                        direction="vertical"
+                        size={16}
+                      >
+                        {socialProviders.map((p) => (
+                          <a
+                            href={p.loginUrl}
+                            id={`social-${p.alias}`}
+                            className={cx(styles.socialLoginBtn, p.providerId)}
+                            key={p.providerId}
+                          >
+                            <div className={styles.socialIcon}>{socialImageMapping[p.alias]}</div>
+                            <span className="sr-only">{advancedMsg('login_title')}</span>
+                            <Text>{p.displayName}</Text>
+                          </a>
+                        ))}
+                        <a
+                          id={`social-CQGC`}
+                          className={cx(styles.socialLoginBtn)}
+                          key={'CQGC'}
+                          onClick={() => {
+                            toggleShowLoginForm(true);
+                          }}
+                        >
+                          <div className={styles.socialIcon}>{socialImageMapping['cqgc']}</div>
+                          <span className="sr-only">{advancedMsg('login_title')}</span>
+                          <Text>CQGC</Text>
+                        </a>
+                      </Space>
+                    )}
+                  </div>
+                </div>
+              )}
+              {isInvalidCredentials && true && (
                 <Alert
                   message={advancedMsg('login_failed_title')}
                   description={advancedMsg('login_failed_message')}
@@ -102,52 +161,55 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: 'log
                   icon={<WarningOutlined />}
                 />
               )}
-              <Form
-                className={styles.loginForm}
-                id="kc-form-login"
-                name="kc-form-login"
-                layout="vertical"
-                onFinish={onFinish}
-                action={url.loginAction}
-                method="post"
-              >
-                <Form.Item
-                  label={
-                    client.clientId === 'clin-prescription-client'
-                      ? advancedMsg('username_label_prescription')
-                      : advancedMsg('username_label')
-                  }
-                  required={true}
-                  rules={[{ required: true, message: advancedMsg('required_field_error') }]}
-                >
-                  <Input id="username" name="username" tabIndex={1} suffix={<MailOutlined />} />
-                </Form.Item>
 
-                <Form.Item
-                  label={advancedMsg('password_label')}
-                  required={true}
-                  rules={[{ required: true, message: advancedMsg('required_field_error') }]}
+              {showLoginForm && (
+                <Form
+                  className={styles.loginForm}
+                  id="kc-form-login"
+                  name="kc-form-login"
+                  layout="vertical"
+                  onFinish={onFinish}
+                  action={url.loginAction}
+                  method="post"
                 >
-                  <div>
-                    <Input.Password id="password" name="password" tabIndex={2} />
-                    <Link href={url.loginResetCredentialsUrl}>
-                      {advancedMsg('forgot_password')}
-                    </Link>
-                  </div>
-                </Form.Item>
-
-                <Space size={'middle'}>
-                  <Button type="primary" htmlType="submit" disabled={isLoginButtonDisabled}>
-                    {advancedMsg('submit')}
-                  </Button>
-                  <Button
-                    type="default"
-                    onClick={() => (window.location.href = (kcContext.client as any).baseUrl)}
+                  <Form.Item
+                    label={
+                      client.clientId === 'clin-prescription-client'
+                        ? advancedMsg('username_label_prescription')
+                        : advancedMsg('username_label')
+                    }
+                    required={true}
+                    rules={[{ required: true, message: advancedMsg('required_field_error') }]}
                   >
-                    {advancedMsg('cancel')}
-                  </Button>
-                </Space>
-              </Form>
+                    <Input id="username" name="username" tabIndex={1} suffix={<MailOutlined />} />
+                  </Form.Item>
+
+                  <Form.Item
+                    label={advancedMsg('password_label')}
+                    required={true}
+                    rules={[{ required: true, message: advancedMsg('required_field_error') }]}
+                  >
+                    <div>
+                      <Input.Password id="password" name="password" tabIndex={2} />
+                      <Link href={url.loginResetCredentialsUrl}>
+                        {advancedMsg('forgot_password')}
+                      </Link>
+                    </div>
+                  </Form.Item>
+
+                  <Space size={'middle'}>
+                    <Button type="primary" htmlType="submit" disabled={isLoginButtonDisabled}>
+                      {advancedMsg('submit')}
+                    </Button>
+                    <Button
+                      type="default"
+                      onClick={() => (window.location.href = (kcContext.client as any).baseUrl)}
+                    >
+                      {advancedMsg('cancel')}
+                    </Button>
+                  </Space>
+                </Form>
+              )}
             </div>
           </div>
         )}

@@ -8,6 +8,9 @@ export const { useI18n } = createUseI18n({
   // https://user-images.githubusercontent.com/6702424/182050652-522b6fe6-8ee5-49df-aca3-dba2d33f24a5.png
   en: {
     /* spell-checker: disable */
+    activation_title: 'Access request',
+    activation_text:
+      'To obtain access to the high-throughput clinical sequencing platform of the Quebec Center for Clinical Genomics, please contact René Allard at the contact information below:',
     login_title: 'Analyses and Diagnostics',
     login_title_prescription: 'Prescriptions and Requisitions',
     login_options: 'Log in with',
@@ -72,6 +75,9 @@ export const { useI18n } = createUseI18n({
   },
   fr: {
     /* spell-checker: disable */
+    activation_title: 'Demande d’accès',
+    activation_text:
+      "Pour l’obtention d'un accès à la plateforme clinique de séquençage à haut débit du Centre québécois de génomique clinique, veuillez contacter René Allard aux coordonnées ci-dessous :",
     login_title: 'Analyses et diagnostics',
     login_title_prescription: 'Prescriptions et requêtes',
     login_options: 'Choisir votre identifiant',

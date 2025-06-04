@@ -17,6 +17,11 @@ public class RedirectToPageAuthenticator implements Authenticator {
 
   Logger logger = LoggerFactory.getLogger(RedirectToPageAuthenticator.class);
 
+  /*
+  * This authenticator redirects the user to a specified page based on the configuration.
+  * It hasn't worked for our need of accessing info-page, so we can keep it, but it is not used.
+  */
+
   @Override
   public void authenticate(AuthenticationFlowContext context) {
     AuthenticatorConfigModel config = context.getAuthenticatorConfig();
@@ -26,6 +31,7 @@ public class RedirectToPageAuthenticator implements Authenticator {
       context.failureChallenge(AuthenticationFlowError.INTERNAL_ERROR, Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("page is not configured.").build());
     } else {
       String redirectUrl = "/realms/" + context.getRealm().getName() + StringUtils.prependIfMissing(page, "/");
+      logger.info("Redirecting to url: {}", redirectUrl);
       Response response = Response.seeOther(java.net.URI.create(redirectUrl)).build();
       context.challenge(response);
     }

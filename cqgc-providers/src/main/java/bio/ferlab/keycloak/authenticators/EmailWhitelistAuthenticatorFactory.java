@@ -55,6 +55,15 @@ public class EmailWhitelistAuthenticatorFactory implements AuthenticatorFactory 
         property.setType(ProviderConfigProperty.TEXT_TYPE);
         property.setHelpText("One item per line");
         configProperties.add(property);
+
+        ProviderConfigProperty property2;
+        property2 = new ProviderConfigProperty();
+        property2.setName("redirectToInfoPage");
+        property2.setLabel("If whitelist check failed, redirect to info page");
+        property2.setType(ProviderConfigProperty.BOOLEAN_TYPE);
+        property2.setHelpText("Un-checked by default");
+        property2.setDefaultValue(Boolean.FALSE);
+        configProperties.add(property2);
     }
 
     @Override

@@ -1,8 +1,10 @@
 package bio.ferlab.keycloak.authenticators;
 
+import org.apache.commons.lang3.StringUtils;
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.Authenticator;
+import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.models.AuthenticatorConfigModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
@@ -26,7 +28,13 @@ public class EmailWhitelistAuthenticator implements Authenticator {
             context.success();
         } else {
             logger.warn("User email not in whitelist");
-            context.failure(AuthenticationFlowError.ACCESS_DENIED);
+            if (Boolean.parseBoolean(StringUtils.lowerCase(config.getConfig().get("redirectToInfoPage")))) {
+                logger.warn("Redirecting user to info page");
+                LoginFormsProvider form = context.form().setError("Email not allowed. Please contact support.");
+                context.challenge(form.createInfoPage());
+            } else {
+                context.failure(AuthenticationFlowError.ACCESS_DENIED);
+            }
         }
     }
 

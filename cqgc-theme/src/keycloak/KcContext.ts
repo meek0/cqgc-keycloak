@@ -98,8 +98,8 @@ export const { kcContext } = getKcContext<KcContextExtension>({
     },
     {
       pageId: 'info.ftl',
-      client: {
-        baseUrl: 'https://prescription.qa.cqgc.hsj.rtss.qc.ca/',
+      locale: {
+        currentLanguageTag: 'fr',
       },
     },
   ],

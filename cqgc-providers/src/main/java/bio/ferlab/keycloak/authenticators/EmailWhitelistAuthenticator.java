@@ -12,6 +12,7 @@ import org.keycloak.models.UserModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.core.Response;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,8 +31,8 @@ public class EmailWhitelistAuthenticator implements Authenticator {
             logger.warn("User email not in whitelist");
             if (Boolean.parseBoolean(StringUtils.lowerCase(config.getConfig().get("redirectToInfoPage")))) {
                 logger.warn("Redirecting user to info page");
-                LoginFormsProvider form = context.form().setError("Email not allowed. Please contact support.");
-                context.challenge(form.createInfoPage());
+                Response response = context.form().createForm("info.ftl");
+                context.failure(AuthenticationFlowError.ACCESS_DENIED, response);
             } else {
                 context.failure(AuthenticationFlowError.ACCESS_DENIED);
             }

@@ -3,9 +3,10 @@
 import { Typography } from 'antd';
 import Link from 'antd/lib/typography/Link';
 import type { I18n } from 'keycloak/i18n';
-import { KcContext } from 'keycloak/KcContext';
+import type { KcContext } from 'keycloak/KcContext';
 import type { PageProps } from 'keycloakify/login/pages/PageProps';
 import SideImageLayout from 'layout/SideImage';
+import { InfoContainer } from 'views/Info';
 
 import ErrorIcon from 'assets/ErrorIcon';
 import MainSideImage from 'assets/side-img-svg.svg';
@@ -62,27 +63,31 @@ const ExpiryErrorContainer = ({
 const Error = (props: PageProps<Extract<KcContext, { pageId: 'error.ftl' }>, I18n>) => {
   const { kcContext, i18n } = props;
 
-  const { message, url, client } = kcContext;
+  const { url, message, client, showWhiteListInfoPage } = kcContext;
 
   const { advancedMsgStr } = i18n;
 
   const isTokenExpired = expiryMessages.filter((m) => message.summary.includes(m)).length > 0;
 
-  return (
-    <SideImageLayout sideImgSrc={MainSideImage} className={styles.errorPage}>
-      <div>
-        {isTokenExpired && (
-          <ExpiryErrorContainer
-            redirectUrl={(client as any).baseUrl}
-            advancedMsg={advancedMsgStr}
-          />
-        )}
-        {!isTokenExpired && (
-          <ErrorContainer redirectUrl={url.loginUrl} advancedMsg={advancedMsgStr} />
-        )}
-      </div>
-    </SideImageLayout>
-  );
+  if (showWhiteListInfoPage) {
+    return <InfoContainer advancedMsgStr={advancedMsgStr} />;
+  } else {
+    return (
+      <SideImageLayout sideImgSrc={MainSideImage} className={styles.errorPage}>
+        <div>
+          {isTokenExpired && (
+            <ExpiryErrorContainer
+              redirectUrl={(client as any).baseUrl}
+              advancedMsg={advancedMsgStr}
+            />
+          )}
+          {!isTokenExpired && (
+            <ErrorContainer redirectUrl={url.loginUrl} advancedMsg={advancedMsgStr} />
+          )}
+        </div>
+      </SideImageLayout>
+    );
+  }
 };
 
 const LoginExpiryError = (

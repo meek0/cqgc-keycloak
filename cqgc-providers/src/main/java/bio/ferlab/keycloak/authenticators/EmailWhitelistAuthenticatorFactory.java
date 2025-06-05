@@ -58,8 +58,8 @@ public class EmailWhitelistAuthenticatorFactory implements AuthenticatorFactory 
 
         ProviderConfigProperty property2;
         property2 = new ProviderConfigProperty();
-        property2.setName("redirectToInfoPage");
-        property2.setLabel("If whitelist check failed, redirect to info page");
+        property2.setName("showWhiteListInfoPage");
+        property2.setLabel("If whitelist check failed, display info contact instead of error page");
         property2.setType(ProviderConfigProperty.BOOLEAN_TYPE);
         property2.setHelpText("Un-checked by default");
         property2.setDefaultValue(Boolean.FALSE);

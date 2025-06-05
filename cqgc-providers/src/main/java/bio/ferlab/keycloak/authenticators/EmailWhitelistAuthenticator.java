@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import javax.ws.rs.core.Response;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class EmailWhitelistAuthenticator implements Authenticator {
 
@@ -29,9 +30,11 @@ public class EmailWhitelistAuthenticator implements Authenticator {
             context.success();
         } else {
             logger.warn("User email not in whitelist");
-            if (Boolean.parseBoolean(StringUtils.lowerCase(config.getConfig().get("redirectToInfoPage")))) {
+            if (Boolean.parseBoolean(StringUtils.lowerCase(config.getConfig().get("showWhiteListInfoPage")))) {
                 logger.warn("Redirecting user to info page");
-                Response response = context.form().createForm("info.ftl");
+                Response response = context.form()
+                  .setAttribute("showWhiteListInfoPage", true)
+                  .createForm("error.ftl");
                 context.failure(AuthenticationFlowError.ACCESS_DENIED, response);
             } else {
                 context.failure(AuthenticationFlowError.ACCESS_DENIED);

@@ -5,10 +5,8 @@ import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.forms.login.LoginFormsProvider;
-import org.keycloak.models.AuthenticatorConfigModel;
-import org.keycloak.models.KeycloakSession;
-import org.keycloak.models.RealmModel;
-import org.keycloak.models.UserModel;
+import org.keycloak.models.*;
+import org.keycloak.services.managers.AuthenticationManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +33,15 @@ public class EmailWhitelistAuthenticator implements Authenticator {
                 Response response = context.form()
                   .setAttribute("showWhiteListInfoPage", true)
                   .createErrorPage(Response.Status.BAD_REQUEST);
+
+                // Delete user session cookies
+                String cookieSettings = String.format(" Max-Age=0; Path=/realms/%s/; HttpOnly", context.getRealm().getName());
+                response = Response.fromResponse(response)
+                  .header("Set-Cookie", "AUTH_SESSION_ID=;" + cookieSettings)
+                  .header("Set-Cookie", "AUTH_SESSION_ID_LEGACY=;" + cookieSettings)
+                  .header("Set-Cookie", "KC_RESTART=;" + cookieSettings)
+                  .build();
+
                 context.failure(AuthenticationFlowError.ACCESS_DENIED, response);
             } else {
                 context.failure(AuthenticationFlowError.ACCESS_DENIED);

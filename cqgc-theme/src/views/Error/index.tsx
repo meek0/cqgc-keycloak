@@ -67,7 +67,7 @@ const Error = (props: PageProps<Extract<KcContext, { pageId: 'error.ftl' }>, I18
 
   const { advancedMsgStr } = i18n;
 
-  const isTokenExpired = expiryMessages.filter((m) => message.summary.includes(m)).length > 0;
+  const isTokenExpired = expiryMessages.filter((m) => message?.summary?.includes(m)).length > 0;
 
   if (showWhiteListInfoPage) {
     return <InfoContainer advancedMsgStr={advancedMsgStr} />;

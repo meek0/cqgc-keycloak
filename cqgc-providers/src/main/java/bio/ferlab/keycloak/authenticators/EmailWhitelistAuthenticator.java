@@ -34,7 +34,7 @@ public class EmailWhitelistAuthenticator implements Authenticator {
                 logger.warn("Redirecting user to info page");
                 Response response = context.form()
                   .setAttribute("showWhiteListInfoPage", true)
-                  .createForm("error.ftl");
+                  .createErrorPage(Response.Status.BAD_REQUEST);
                 context.failure(AuthenticationFlowError.ACCESS_DENIED, response);
             } else {
                 context.failure(AuthenticationFlowError.ACCESS_DENIED);

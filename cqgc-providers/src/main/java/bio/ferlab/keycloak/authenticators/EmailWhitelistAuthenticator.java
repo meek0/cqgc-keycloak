@@ -34,14 +34,6 @@ public class EmailWhitelistAuthenticator implements Authenticator {
                   .setAttribute("showWhiteListInfoPage", true)
                   .createErrorPage(Response.Status.BAD_REQUEST);
 
-                // Delete user session cookies
-                String cookieSettings = String.format(" Max-Age=0; Path=/realms/%s/; HttpOnly", context.getRealm().getName());
-                response = Response.fromResponse(response)
-                  .header("Set-Cookie", "AUTH_SESSION_ID=;" + cookieSettings)
-                  .header("Set-Cookie", "AUTH_SESSION_ID_LEGACY=;" + cookieSettings)
-                  .header("Set-Cookie", "KC_RESTART=;" + cookieSettings)
-                  .build();
-
                 context.failure(AuthenticationFlowError.ACCESS_DENIED, response);
             } else {
                 context.failure(AuthenticationFlowError.ACCESS_DENIED);
